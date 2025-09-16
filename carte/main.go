@@ -47,11 +47,20 @@ func main() {
 		}
 
 		if world[newY][newX] != '#' {
-			playerX, playerY = newX, newY
-
-			// Déclencheur d'événement : combat si le joueur est sur une case spéciale
-			if world[playerY][playerX] == '$' {
-				lancerCombat()
+			// Système d'énigme sur la porte '-'
+			if world[newY][newX] == '-' {
+				if enigmePorte() {
+					playerX, playerY = newX, newY
+				} else {
+					fmt.Println("La porte reste fermée. Appuie sur Entrée pour réessayer...")
+					fmt.Scanln()
+				}
+			} else {
+				playerX, playerY = newX, newY
+				// Déclencheur d'événement : combat uniquement aux coordonnées (x=4, y=11)
+				if playerX == 4 && playerY == 11 {
+					lancerCombat()
+				}
 			}
 		}
 	}
@@ -59,8 +68,18 @@ func main() {
 
 // Fonction simulant le lancement d'un combat
 func lancerCombat() {
-	fmt.Println("Un combat commence ! Prépare-toi !")
-	// Ici, tu pourrais appeler la logique de combat réelle
+	fmt.Println("\033[33mVous trouvez un coffre :\033[0m")
+	fmt.Println("Le coffre s'agite, et s'ouvre revelant une gueule béante et des dents acérés, s'ouvre alors des yeux mauvais")
+	fmt.Println("Un mimic dardant sa langue s'apprete a vous dévorer.")
+	content, err := os.ReadFile("mimic.txt")
+	if err != nil {
+		fmt.Println("Erreur de lecture du fichier :", err)
+		return
+	}
+	fmt.Printf("\033[38;5;130m%s\033[0m\n", string(content))
+
+	fmt.Println("Roll for initiative")
+	// ici logique reel de combat tah pokemon
 	fmt.Println("(Simulation du combat...)")
 	fmt.Println("Le combat est terminé !")
 	fmt.Println("Appuie sur Entrée pour continuer...")
@@ -87,4 +106,20 @@ func clear() {
 	cmd.Run()
 }
 
-//systeme d evenement
+func enigmePorte() bool {
+	fmt.Println("Une porte devant vous barre votre chemin.")
+	fmt.Println("Elle ne présente ni serrure ni poignée, mais une tête de sphinx.")
+	fmt.Println("Ses yeux rouges s'allument et une voix résonne alors :")
+	fmt.Println()
+	fmt.Println("« Jamais je ne suis loin de mon autre jumelle,\non m'associe souvent au parfum vomitif d'une partie du corps\nqui n'est pas vraiment belle, localisée fort loin de l'organe olfactif. »")
+	fmt.Println()
+	fmt.Print("Quelle est votre réponse ? ")
+	var reponse string
+	fmt.Scanln(&reponse)
+	if reponse == "chaussette" || reponse == "Chaussette" {
+		fmt.Println("La porte s'ouvre lentement dans un grincement sinistre...")
+		return true
+	}
+	fmt.Println("Mauvaise réponse !")
+	return false
+}
