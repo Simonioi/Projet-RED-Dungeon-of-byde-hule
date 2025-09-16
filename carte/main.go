@@ -62,8 +62,33 @@ func main() {
 					lancerCombat()
 				}
 			}
+			playerX, playerY = newX, newY
+			// Déclencheur d'événement : combat uniquement aux coordonnées (x=4, y=11)
+			if playerX == 18 && playerY == 4 {
+				lancerCombatSkelly()
+			}
 		}
+
 	}
+}
+
+func lancerCombatSkelly() {
+	fmt.Println("skelly se reveil pour te casser la gueule")
+	fmt.Println("il est en fasse de toi pret a te malaxer bien comme il faut")
+	content, err := os.ReadFile("skelly.txt")
+	if err != nil {
+		fmt.Println("Erreur de lecture du fichier :", err)
+		return
+	}
+	fmt.Printf("\033[97m%s\033[0m\n", string(content))
+
+	// ici logique reel de combat tah pokemon
+	fmt.Println("(Simulation du combat...)")
+	fmt.Println("Le combat est terminé !")
+	fmt.Println("Appuie sur Entrée pour continuer...")
+	playerY = 1
+	playerX = 27
+	fmt.Scanln()
 }
 
 // Fonction simulant le lancement d'un combat
