@@ -73,8 +73,11 @@ func main() {
 }
 
 func lancerCombatSkelly() {
-	fmt.Println("skelly se reveil pour te casser la gueule")
-	fmt.Println("il est en fasse de toi pret a te malaxer bien comme il faut")
+	fmt.Println("\033[33mDevant vous une horde de squelette. Un sans jambe rampe sans but, un autre sans bras cours en rond et un dernier semble plus menaçant armé d'une épée rouillé et d'un casque.\033[0m")
+	fmt.Println()
+	fmt.Println("\033[33mUn crâne au vous regarde et dis :\033[0m")
+	fmt.Println("«Kakakaka te revoila Len..., oh! Non. Qui es tu ? »")
+	fmt.Println("\033[31mATTAQUE LE !!!\033[0m")
 	content, err := os.ReadFile("skelly.txt")
 	if err != nil {
 		fmt.Println("Erreur de lecture du fichier :", err)
