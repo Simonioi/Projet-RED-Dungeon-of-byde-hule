@@ -3,7 +3,6 @@ package combat
 import (
 	"fmt"
 	"math/rand"
-	"time"
 )
 
 type Attack struct {
@@ -28,7 +27,6 @@ type Monster struct {
 }
 
 func Combat(player *Character, enemy *Monster) {
-	rand.Seed(time.Now().UnixNano())
 	fmt.Printf("Un %s apparaît !\n", enemy.Name)
 	for player.CurrentHP > 0 && enemy.CurrentHP > 0 {
 		fmt.Printf("\nVotre tour ! PV: %d/%d\n", player.CurrentHP, player.MaxHP)
