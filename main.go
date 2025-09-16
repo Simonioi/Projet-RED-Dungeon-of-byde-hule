@@ -1,10 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"dungeon/personnage"
-	"dungeon/mimic"
-	"dungeon/combat"
+	"fmt"
+	"strings"
 )
 
 func main() {
@@ -14,22 +13,16 @@ func main() {
 	fmt.Print("Choisissez la classe (barbare/mage) : ")
 	fmt.Scanln(&class)
 
-	var player *personnage.Character
-	switch class {
+	var player personnage.Character
+	switch strings.ToLower(class) {
 	case "barbare":
-		p := personnage.CreateBarbarian(name)
-		player = &p
+		player = personnage.CreateBarbarian(name)
 	case "mage":
-		p := personnage.CreateMage(name)
-		player = &p
+		player = personnage.CreateMage(name)
 	default:
 		fmt.Println("Classe inconnue, création d'un barbare par défaut.")
-		p := personnage.CreateBarbarian(name)
-		player = &p
+		player = personnage.CreateBarbarian(name)
 	}
 
-
-	var enemy *mimic.Monster
-	fmt.Printf("Un combat commence \n")
-	combat.Battle(player, enemy)
+	fmt.Printf("Personnage créé : %s le %s (PV: %d/%d, PM: %d/%d)\n", player.Name, player.Class, player.CurrentHP, player.MaxHP, player.CurrentMP, player.MaxMP)
 }
