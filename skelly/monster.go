@@ -13,7 +13,7 @@ type Monster struct {
 	Attacks   []Attack
 }
 
-func NewSkelly() Monster {
+func Skelly() Monster {
 	return Monster{
 		Name:      "Skelly",
 		MaxHP:     20,
