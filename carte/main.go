@@ -48,10 +48,24 @@ func main() {
 
 		if world[newY][newX] != '#' {
 			playerX, playerY = newX, newY
+
+			// Déclencheur d'événement : combat si le joueur est sur une case spéciale
+			if world[playerY][playerX] == '$' {
+				lancerCombat()
+			}
 		}
 	}
 }
 
+// Fonction simulant le lancement d'un combat
+func lancerCombat() {
+	fmt.Println("Un combat commence ! Prépare-toi !")
+	// Ici, tu pourrais appeler la logique de combat réelle
+	fmt.Println("(Simulation du combat...)")
+	fmt.Println("Le combat est terminé !")
+	fmt.Println("Appuie sur Entrée pour continuer...")
+	fmt.Scanln()
+}
 func draw() {
 	for y, line := range world {
 		for x, char := range line {
@@ -72,3 +86,5 @@ func clear() {
 	cmd.Stdout = os.Stdout
 	cmd.Run()
 }
+
+//systeme d evenement
