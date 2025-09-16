@@ -1,4 +1,4 @@
-package main
+package skelly
 
 type Attack struct {
 	Name      string

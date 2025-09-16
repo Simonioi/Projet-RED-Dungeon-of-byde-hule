@@ -1,4 +1,4 @@
-package main
+package mimic
 
 type Attack struct {
 	Name      string
@@ -13,7 +13,7 @@ type Monster struct {
 	Attacks   []Attack
 }
 
-func NewMimic() Monster {
+func Mimic() Monster {
 	return Monster{
 		Name:      "Mimic",
 		MaxHP:     10,
