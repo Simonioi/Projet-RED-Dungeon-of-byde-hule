@@ -24,7 +24,8 @@ type Character struct {
 	MaxMP     int
 	CurrentMP int
 	Inventory *inventaire.Inventory
-	Attacks   []Attack
+	Attacks1   []Attack // Attaques de base
+	Attacks2   []Attack // Attaques puissante
 }
 
 func CreateBarbarian(name string) Character {
@@ -43,10 +44,13 @@ func CreateBarbarian(name string) Character {
 		}
 	}
 
-	attacks := []Attack{
+	attacks1 := []Attack{
 		{Name: "Attaque rapide", Damage: sword.Damage, HitChance: 0.95},
+	}
+	attacks2 := []Attack{
 		{Name: "Attaque puissante", Damage: sword.Damage + 1, HitChance: 0.80},
 	}
+
 
 	baseHP := 8 + armor.HealthBoost
 
@@ -58,7 +62,8 @@ func CreateBarbarian(name string) Character {
 		MaxMP:     4,
 		CurrentMP: 4,
 		Inventory: inventory,
-		Attacks:   attacks,
+		Attacks1:  attacks1,
+		Attacks2:  attacks2,
 	}
 }
 
@@ -78,9 +83,11 @@ func CreateMage(name string) Character {
 		}
 	}
 
-	attacks := []Attack{
+	attacks1 := []Attack{
 		{Name: "Coup de bâton", Damage: staff.Damage, HitChance: 0.70},
-		{Name: "Missile magique", Damage: 4, HitChance: 0.95},
+	}
+	attacks2 := []Attack{
+	{Name: "Missile magique", Damage: 4, HitChance: 0.95},
 	}
 
 	baseHP := 5 + robe.HealthBoost
@@ -93,7 +100,8 @@ func CreateMage(name string) Character {
 		MaxMP:     4,
 		CurrentMP: 4,
 		Inventory: inventory,
-		Attacks:   attacks,
+		Attacks1:  attacks1,
+		Attacks2:  attacks2,
 	}
 }
 
