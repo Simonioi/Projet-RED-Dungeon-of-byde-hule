@@ -1,11 +1,11 @@
 package carte
 
 import (
-	"dungeon/coffre"
 	"dungeon/combat"
 	"dungeon/combatcthulhu"
 	"dungeon/combatskelly"
 	"dungeon/cthulhu"
+	"dungeon/inventaire/stock"
 	"dungeon/mimic"
 	"dungeon/personnage"
 	"dungeon/skelly"
@@ -82,10 +82,11 @@ func Start(p personnage.Character) {
 			playerX, playerY = newX, newY
 
 			if playerY == 2 && (playerX == 9 || playerX == 10) && !coffreOuvert {
-				ouvert, _, _ := coffre.OuvrirCoffre([]string{"Potion de soin", "un enorme god pour ctululuuuuu", "Épée ancienne"}, 150)
-				if ouvert {
-					coffreOuvert = true
-				}
+				argent := stock.Argent
+				argent.Quantity = 20
+				player.Inventory.AddItem(argent)
+				player.Inventory.AddItem(stock.FireScroll)
+				coffreOuvert = true
 				// On arrête la séquence après un événement
 				break
 			}
