@@ -1,6 +1,7 @@
 package carte
 
 import (
+	"dungeon/coffre"
 	"dungeon/combat"
 	"dungeon/combatcthulhu"
 	"dungeon/combatskelly"
@@ -33,6 +34,9 @@ var playerX, playerY = 1, 6
 
 func Start(p personnage.Character) {
 	player = p
+	coffreOuvert := false
+	combatMimicFait := false
+	combatSkellyFait := false
 	for {
 		clear()
 		draw()
@@ -69,17 +73,26 @@ func Start(p personnage.Character) {
 			} else {
 				// Déplacement normal
 				playerX, playerY = newX, newY
-				// Combat qui start en x=4 et y=11
-				if playerX == 4 && playerY == 11 {
+
+				if playerY == 2 && (playerX == 9 || playerX == 10) && !coffreOuvert {
+					ouvert, _, _ := coffre.OuvrirCoffre([]string{"Potion de soin", "un enorme god pour ctululuuuuu", "Épée ancienne"}, 150)
+					if ouvert {
+						coffreOuvert = true
+					}
+				}
+
+				// Combat qui start en x=4 et y=11 (Mimic)
+				if (playerX == 4 || playerX == 5) && playerY == 11 && !combatMimicFait {
 					lancerCombat()
 					mimic := mimic.Mimic()
 					combat.Battle(&player, &mimic)
 					fmt.Println("Le combat est terminé !")
 					fmt.Println("Appuie sur Entrée pour continuer...")
 					fmt.Scanln()
+					combatMimicFait = true
 				}
 				// Combat contre Skelly en x=18 et y=4
-				if playerX == 18 && playerY == 4 {
+				if playerX == 18 && playerY == 4 && !combatSkellyFait {
 					lancerCombatSkelly()
 					skellyMonster := skelly.Skelly()
 					combatskelly.Battle(&player, &skellyMonster)
@@ -87,6 +100,7 @@ func Start(p personnage.Character) {
 						playerY = 1
 						playerX = 27
 					}
+					combatSkellyFait = true
 				}
 				// Combat contre Cthulhu en x=43 et y=1
 				if playerX == 43 && playerY == 1 {
@@ -98,10 +112,8 @@ func Start(p personnage.Character) {
 						playerX = 43
 					}
 				}
-
 			}
 		}
-
 	}
 }
 
