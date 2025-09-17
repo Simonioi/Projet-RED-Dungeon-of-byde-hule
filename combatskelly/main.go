@@ -82,5 +82,5 @@ func Battle(player *personnage.Character, enemy *skelly.Monster) {
 		}
 	}
 
-	fmt.Printf("\033[34mPV Joueur:\033[0m %d | \033[31mPV Ennemi:\033[0m %d\n", player.CurrentHP, enemy.CurrentHP)
+	fmt.Printf("\033[34mPV Joueur: %d\033[0m | \033[31mPV Ennemi: %d\033[0m\n", player.CurrentHP, enemy.CurrentHP)
 }
