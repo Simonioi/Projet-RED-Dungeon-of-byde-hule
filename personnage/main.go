@@ -1,10 +1,10 @@
 package personnage
 
 import (
+	"dungeon/inventaire"
+	"dungeon/inventaire/item"
 	"fmt"
 	"strings"
-
-	"dungeon/inventaire"
 )
 
 type Attack struct {
@@ -33,13 +33,13 @@ func CreateBarbarian(name string) Character {
 
 	// Récupérer les objets pour calculer les stats
 	items := inventory.GetItems()
-	var armor, sword inventaire.Item
-	for _, item := range items {
-		if item.Name == "Armure de barbare" {
-			armor = item
+	var armor, sword item.Item
+	for _, it := range items {
+		if it.Name == "Armure de barbare" {
+			armor = it
 		}
-		if item.Name == "Épée" {
-			sword = item
+		if it.Name == "Épée" {
+			sword = it
 		}
 	}
 
@@ -73,13 +73,13 @@ func CreateMage(name string) Character {
 
 	// Récupérer les objets pour calculer les stats
 	items := inventory.GetItems()
-	var robe, staff inventaire.Item
-	for _, item := range items {
-		if item.Name == "Robe enchantée" {
-			robe = item
+	var robe, staff item.Item
+	for _, it := range items {
+		if it.Name == "Robe enchantée" {
+			robe = it
 		}
-		if item.Name == "Bâton de mage" {
-			staff = item
+		if it.Name == "Bâton de mage" {
+			staff = it
 		}
 	}
 
