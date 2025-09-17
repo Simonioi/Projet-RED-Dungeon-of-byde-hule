@@ -61,6 +61,7 @@ func ExecuteAttack(attackerName string, attacks []personnage.Attack, defenderNam
 func Battle(player *personnage.Character, enemy *mimic.Monster) {
 	for player.CurrentHP > 0 && enemy.CurrentHP > 0 {
 		fmt.Println("\n--- Tour du joueur ---")
+		fmt.Println("PV Joueur:", player.CurrentHP, "| PV Ennemi:", enemy.CurrentHP)
 		choice := ChooseAttackType()
 		if choice == 1 {
 			ExecuteAttack(player.Name, player.Attacks1, enemy.Name, &enemy.CurrentHP)
