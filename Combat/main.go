@@ -25,7 +25,7 @@ func enAttack(enemy *mimic.Monster, player *personnage.Character) {
 
 func ChooseAttackType() int {
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Println("\n\033[34mChoisis ton type d'attaque :\033[0m")
+	fmt.Println("\n\033[33mChoisis ton type d'attaque :\033[0m")
 	fmt.Println("1. Attaque de base")
 	fmt.Println("2. Attaque puissante")
 	fmt.Print("Choix : ")
