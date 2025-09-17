@@ -108,13 +108,13 @@ func Start(p personnage.Character) {
 var player personnage.Character
 
 func lancerCombatCthulhu() {
-	fmt.Println("\033[35mdans son bain ya l autre gland\033[0m")
+	fmt.Println("\033[37mdans son bain ya l autre gland\033[0m")
 	content, err := os.ReadFile("cltuuululuuuuu.txt")
 	if err != nil {
 		fmt.Println("Erreur de lecture du fichier :", err)
 		return
 	}
-	fmt.Printf("\033[35m%s\033[0m\n", string(content))
+	fmt.Printf("\033[32m%s\033[0m\n", string(content))
 	fmt.Println("Prépare-toi à affronter Cthulhu !")
 }
 
