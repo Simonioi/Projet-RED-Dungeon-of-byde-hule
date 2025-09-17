@@ -1,8 +1,7 @@
 package main
 
 import (
-	"dungeon/combat"
-	"dungeon/mimic"
+	"dungeon/carte"
 	"dungeon/personnage"
 	"fmt"
 	"strings"
@@ -27,8 +26,5 @@ func main() {
 	}
 
 	fmt.Printf("Personnage créé : %s le %s (PV: %d/%d, PM: %d/%d)\n", player.Name, player.Class, player.CurrentHP, player.MaxHP, player.CurrentMP, player.MaxMP)
-
-	// Création du Mimic
-	mimic := mimic.Mimic()
-	combat.Battle(&player, &mimic)
+	carte.Start(player)
 }

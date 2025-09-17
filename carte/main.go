@@ -1,6 +1,9 @@
-package main
+package carte
 
 import (
+	"dungeon/combat"
+	"dungeon/mimic"
+	"dungeon/personnage"
 	"fmt"
 	"os"
 	"os/exec"
@@ -24,7 +27,9 @@ var world = []string{
 
 var playerX, playerY = 1, 6
 
-func main() {
+// Start lance la boucle principale de la carte avec le personnage donné
+func Start(p personnage.Character) {
+	player = p
 	for {
 		clear()
 		draw()
@@ -47,7 +52,6 @@ func main() {
 		}
 
 		if world[newY][newX] != '#' {
-			// Système d'énigme sur la porte '-'
 			if world[newY][newX] == '-' {
 				if enigmePorte() {
 					playerX, playerY = newX, newY
@@ -60,6 +64,11 @@ func main() {
 				// Déclencheur d'événement : combat uniquement aux coordonnées (x=4, y=11)
 				if playerX == 4 && playerY == 11 {
 					lancerCombat()
+					mimic := mimic.Mimic()
+					combat.Battle(&player, &mimic)
+					fmt.Println("Le combat est terminé !")
+					fmt.Println("Appuie sur Entrée pour continuer...")
+					fmt.Scanln()
 				}
 			}
 			playerX, playerY = newX, newY
@@ -71,6 +80,8 @@ func main() {
 
 	}
 }
+
+var player personnage.Character
 
 func lancerCombatSkelly() {
 	fmt.Println("\033[33mDevant vous une horde de squelette. Un sans jambe rampe sans but, un autre sans bras cours en rond et un dernier semble plus menaçant armé d'une épée rouillé et d'un casque.\033[0m")
@@ -107,12 +118,9 @@ func lancerCombat() {
 	fmt.Printf("\033[38;5;130m%s\033[0m\n", string(content))
 
 	fmt.Println("Roll for initiative")
-	// ici logique reel de combat tah pokemon
-	fmt.Println("(Simulation du combat...)")
-	fmt.Println("Le combat est terminé !")
-	fmt.Println("Appuie sur Entrée pour continuer...")
-	fmt.Scanln()
+
 }
+
 func draw() {
 	for y, line := range world {
 		for x, char := range line {
