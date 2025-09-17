@@ -20,7 +20,7 @@ func enAttack(enemy *mimic.Monster, player *personnage.Character) {
 		totalDamage = 0
 	}
 	player.CurrentHP -= totalDamage
-	fmt.Printf("%s attaque %s et inflige %d dégâts !\n", enemy.Name, player.Name, totalDamage)
+	fmt.Printf("\033[31m%s attaque %s et inflige %d dégâts !\n\033[0m", enemy.Name, player.Name, totalDamage)
 }
 
 func ChooseAttackType() int {
@@ -44,9 +44,9 @@ func ExecuteAttack(attackerName string, attacks []personnage.Attack, defenderNam
 	for _, attack := range attacks {
 		if rand.Float64() <= attack.HitChance {
 			totalDamage += attack.Damage
-			fmt.Printf("%s utilise %s et inflige %d dégâts à %s !\n", attackerName, attack.Name, attack.Damage, defenderName)
+			fmt.Printf("\033[34m%s utilise %s et inflige %d dégâts à %s !\n\033[0m", attackerName, attack.Name, attack.Damage, defenderName)
 		} else {
-			fmt.Printf("%s utilise %s mais rate son attaque !\n", attackerName, attack.Name)
+			fmt.Printf("\033[34m%s utilise %s mais rate son attaque !\n\033[0m", attackerName, attack.Name)
 		}
 	}
 	if totalDamage < 0 {
@@ -61,7 +61,7 @@ func ExecuteAttack(attackerName string, attacks []personnage.Attack, defenderNam
 func Battle(player *personnage.Character, enemy *mimic.Monster) {
 	for player.CurrentHP > 0 && enemy.CurrentHP > 0 {
 		fmt.Println("\n--- Tour du joueur ---")
-		fmt.Println("PV Joueur:", player.CurrentHP, "| PV Ennemi:", enemy.CurrentHP)
+		fmt.Println("\033[34mPV Joueur:\033[0m", player.CurrentHP, "| \033[31mPV Ennemi:\033[0m", enemy.CurrentHP)
 		choice := ChooseAttackType()
 		if choice == 1 {
 			ExecuteAttack(player.Name, player.Attacks1, enemy.Name, &enemy.CurrentHP)
@@ -70,14 +70,14 @@ func Battle(player *personnage.Character, enemy *mimic.Monster) {
 		}
 
 		if enemy.CurrentHP <= 0 {
-			fmt.Println(enemy.Name, "est vaincu !")
+			fmt.Println(enemy.Name, "\033[32mest vaincu !\033[0m")
 			break
 		}
 
 		fmt.Println("\n--- Tour de l'ennemi ---")
 		enAttack(enemy, player)
 		if player.CurrentHP <= 0 {
-			fmt.Println(player.Name, "est vaincu !")
+			fmt.Println(player.Name, "\033[33mest vaincu !\033[0m")
 			break
 		}
 	}

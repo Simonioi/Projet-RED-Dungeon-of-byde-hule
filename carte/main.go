@@ -27,7 +27,6 @@ var world = []string{
 
 var playerX, playerY = 1, 6
 
-// Start lance la boucle principale de la carte avec le personnage donné
 func Start(p personnage.Character) {
 	player = p
 	for {
@@ -54,14 +53,19 @@ func Start(p personnage.Character) {
 		if world[newY][newX] != '#' {
 			if world[newY][newX] == '-' {
 				if enigmePorte() {
+					// Bonne réponse : avancer
 					playerX, playerY = newX, newY
 				} else {
-					fmt.Println("La porte reste fermée. Appuie sur Entrée pour réessayer...")
+					// Mauvaise réponse : reculer à Y=8, X=24
+					playerY = 8
+					playerX = 24
+					fmt.Println("La porte reste fermée. Vous reculez. Appuie sur Entrée pour réessayer...")
 					fmt.Scanln()
 				}
 			} else {
+				// Déplacement normal
 				playerX, playerY = newX, newY
-				// Déclencheur d'événement : combat uniquement aux coordonnées (x=4, y=11)
+				// Combat qui start en x=4 et y=11
 				if playerX == 4 && playerY == 11 {
 					lancerCombat()
 					mimic := mimic.Mimic()
@@ -70,11 +74,10 @@ func Start(p personnage.Character) {
 					fmt.Println("Appuie sur Entrée pour continuer...")
 					fmt.Scanln()
 				}
-			}
-			playerX, playerY = newX, newY
-			// Déclencheur d'événement : combat uniquement aux coordonnées (x=4, y=11)
-			if playerX == 18 && playerY == 4 {
-				lancerCombatSkelly()
+				// Pareil que pour le mimic mais en x=18 et y=4
+				if playerX == 18 && playerY == 4 {
+					lancerCombatSkelly()
+				}
 			}
 		}
 
