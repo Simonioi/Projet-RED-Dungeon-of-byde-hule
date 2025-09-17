@@ -72,8 +72,22 @@ func Battle(player *personnage.Character, enemy *skelly.Monster) {
         case 2:
             ExecuteAttack(player.Name, player.Attacks2, enemy.Name, &enemy.CurrentHP)
         case 3:
-            menuinventaire.OpenInventory(player.Inventory, player)
-            // Pas d'attaque ce tour si inventaire ouvert
+            used := menuinventaire.OpenInventory(player.Inventory, player)
+            if !used {
+                // Si aucun objet utilisé, on recommence le tour du joueur
+                continue
+            }
+        }
+
+        // Appliquer les dégâts d’un objet offensif si présent
+        if player.PendingDamage > 0 {
+            fmt.Println(player.PendingDamageText)
+            enemy.CurrentHP -= player.PendingDamage
+            if enemy.CurrentHP < 0 {
+                enemy.CurrentHP = 0
+            }
+            player.PendingDamage = 0
+            player.PendingDamageText = ""
         }
 
         if enemy.CurrentHP <= 0 {

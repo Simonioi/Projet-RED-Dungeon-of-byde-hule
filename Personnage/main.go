@@ -21,10 +21,10 @@ type Character struct {
 	MaxMP             int
 	CurrentMP         int
 	Inventory         *inventaire.Inventory
-	Attacks1          []Attack // Attaques de base
-	Attacks2          []Attack // Attaques puissante
 	PendingDamage     int
 	PendingDamageText string
+	Attacks1          []Attack // Attaques de base
+	Attacks2          []Attack // Attaques puissante
 }
 
 func CreateBarbarian(name string) Character {
@@ -60,10 +60,10 @@ func CreateBarbarian(name string) Character {
 		MaxMP:             4,
 		CurrentMP:         4,
 		Inventory:         inventory,
-		Attacks1:          attacks1,
-		Attacks2:          attacks2,
 		PendingDamage:     0,
 		PendingDamageText: "",
+		Attacks1:          attacks1,
+		Attacks2:          attacks2,
 	}
 }
 
@@ -100,10 +100,10 @@ func CreateMage(name string) Character {
 		MaxMP:             4,
 		CurrentMP:         4,
 		Inventory:         inventory,
-		Attacks1:          attacks1,
-		Attacks2:          attacks2,
 		PendingDamage:     0,
 		PendingDamageText: "",
+		Attacks1:          attacks1,
+		Attacks2:          attacks2,
 	}
 }
 

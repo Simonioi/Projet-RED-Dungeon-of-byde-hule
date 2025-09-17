@@ -65,15 +65,28 @@ func Battle(player *personnage.Character, enemy *mimic.Monster) {
         fmt.Println("\n--- Tour du joueur ---")
         fmt.Println("\033[34mPV Joueur:\033[0m", player.CurrentHP, "| \033[31mPV Ennemi:\033[0m", enemy.CurrentHP)
 
-        choice := ChooseAction()
+       choice := ChooseAction()
         switch choice {
         case 1:
             ExecuteAttack(player.Name, player.Attacks1, enemy.Name, &enemy.CurrentHP)
         case 2:
             ExecuteAttack(player.Name, player.Attacks2, enemy.Name, &enemy.CurrentHP)
         case 3:
-            menuinventaire.OpenInventory(player.Inventory, player)
+            used := menuinventaire.OpenInventory(player.Inventory, player)
+            if !used {
+                // Si aucun objet utilisé, on recommence le tour du joueur
+                continue
+            }
         }
+		if player.PendingDamage > 0 {
+			fmt.Println(player.PendingDamageText)
+			enemy.CurrentHP -= player.PendingDamage
+			if enemy.CurrentHP < 0 {
+				enemy.CurrentHP = 0
+			}
+			player.PendingDamage = 0
+			player.PendingDamageText = ""
+		}
 
         if enemy.CurrentHP <= 0 {
             fmt.Println(enemy.Name, "\033[32mest vaincu !\033[0m")

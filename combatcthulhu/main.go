@@ -1,52 +1,52 @@
 package combatcthulhu
 
 import (
-	"bufio"
-	"dungeon/cthulhu"
-	"dungeon/personnage"
-	"fmt"
-	"math/rand"
-	"os"
-	"strconv"
-	"strings"
-	"dungeon/inventaire/openinventory"
+    "bufio"
+    "dungeon/cthulhu"
+    "dungeon/inventaire/openinventory"
+    "dungeon/personnage"
+    "fmt"
+    "math/rand"
+    "os"
+    "strconv"
+    "strings"
 )
 
 func enAttack(enemy *cthulhu.Monster, player *personnage.Character, turn int) {
-	var selectedAttack []cthulhu.Attack
+    var selectedAttack []cthulhu.Attack
 
-	switch turn {
-	case 1:
-		selectedAttack = enemy.Attack1
-	case 2:
-		selectedAttack = enemy.Attack2
-	case 3:
-		selectedAttack = enemy.Attack3
-	case 4:
-		selectedAttack = enemy.Attack4
-	case 5:
-		selectedAttack = enemy.Attack5
-	default:
-		selectedAttack = enemy.Attack1 // Revenir à l'attaque 1 si le tour dépasse 5
-	}
+    switch turn {
+    case 1:
+        selectedAttack = enemy.Attack1
+    case 2:
+        selectedAttack = enemy.Attack2
+    case 3:
+        selectedAttack = enemy.Attack3
+    case 4:
+        selectedAttack = enemy.Attack4
+    case 5:
+        selectedAttack = enemy.Attack5
+    default:
+        selectedAttack = enemy.Attack1
+    }
 
-	totalDamage := 0
-	for _, attack := range selectedAttack {
-		if rand.Float64() <= attack.HitChance {
-			totalDamage += attack.Damage
-			fmt.Printf("\033[31m%s utilise %s et inflige %d dégâts à %s !\n\033[0m", enemy.Name, attack.Name, attack.Damage, player.Name)
-		} else {
-			fmt.Printf("\033[31m%s utilise %s mais rate son attaque !\n\033[0m", enemy.Name, attack.Name)
-		}
-	}
+    totalDamage := 0
+    for _, attack := range selectedAttack {
+        if rand.Float64() <= attack.HitChance {
+            totalDamage += attack.Damage
+            fmt.Printf("%s utilise %s et inflige %d dégâts à %s !\n", enemy.Name, attack.Name, attack.Damage, player.Name)
+        } else {
+            fmt.Printf("%s utilise %s mais rate son attaque !\n", enemy.Name, attack.Name)
+        }
+    }
 
-	if totalDamage < 0 {
-		totalDamage = 0
-	}
-	player.CurrentHP -= totalDamage
-	if player.CurrentHP < 0 {
-		player.CurrentHP = 0
-	}
+    if totalDamage < 0 {
+        totalDamage = 0
+    }
+    player.CurrentHP -= totalDamage
+    if player.CurrentHP < 0 {
+        player.CurrentHP = 0
+    }
 }
 
 func ChooseAction() int {
@@ -66,24 +66,23 @@ func ChooseAction() int {
     return choice
 }
 
-
 func ExecuteAttack(attackerName string, attacks []personnage.Attack, defenderName string, defenderHP *int) {
-	totalDamage := 0
-	for _, attack := range attacks {
-		if rand.Float64() <= attack.HitChance {
-			totalDamage += attack.Damage
-			fmt.Printf("\033[34m%s utilise %s et inflige %d dégâts à %s !\n\033[0m", attackerName, attack.Name, attack.Damage, defenderName)
-		} else {
-			fmt.Printf("\033[34m%s utilise %s mais rate son attaque !\n\033[0m", attackerName, attack.Name)
-		}
-	}
-	if totalDamage < 0 {
-		totalDamage = 0
-	}
-	*defenderHP -= totalDamage
-	if *defenderHP < 0 {
-		*defenderHP = 0
-	}
+    totalDamage := 0
+    for _, attack := range attacks {
+        if rand.Float64() <= attack.HitChance {
+            totalDamage += attack.Damage
+            fmt.Printf("%s utilise %s et inflige %d dégâts à %s !\n", attackerName, attack.Name, attack.Damage, defenderName)
+        } else {
+            fmt.Printf("%s utilise %s mais rate son attaque !\n", attackerName, attack.Name)
+        }
+    }
+    if totalDamage < 0 {
+        totalDamage = 0
+    }
+    *defenderHP -= totalDamage
+    if *defenderHP < 0 {
+        *defenderHP = 0
+    }
 }
 
 func Battle(player *personnage.Character, enemy *cthulhu.Monster) {
@@ -100,7 +99,22 @@ func Battle(player *personnage.Character, enemy *cthulhu.Monster) {
         case 2:
             ExecuteAttack(player.Name, player.Attacks2, enemy.Name, &enemy.CurrentHP)
         case 3:
-            menuinventaire.OpenInventory(player.Inventory, player)
+            used := menuinventaire.OpenInventory(player.Inventory, player)
+            if !used {
+                // Si aucun objet utilisé, on recommence le tour du joueur
+                continue
+            }
+        }
+
+        // Appliquer les dégâts d’un objet offensif si présent
+        if player.PendingDamage > 0 {
+            fmt.Println(player.PendingDamageText)
+            enemy.CurrentHP -= player.PendingDamage
+            if enemy.CurrentHP < 0 {
+                enemy.CurrentHP = 0
+            }
+            player.PendingDamage = 0
+            player.PendingDamageText = ""
         }
 
         if enemy.CurrentHP <= 0 {
