@@ -109,6 +109,8 @@ func Battle(player *personnage.Character, enemy *cthulhu.Monster) {
             fmt.Println(player.Name, "est vaincu !")
             break
         }
+
+        turn++
     }
 
     fmt.Printf("PV Joueur: %d | PV Ennemi: %d\n", player.CurrentHP, enemy.CurrentHP)
