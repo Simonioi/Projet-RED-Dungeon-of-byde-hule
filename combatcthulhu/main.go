@@ -9,6 +9,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"dungeon/inventaire/openinventory"
 )
 
 func enAttack(enemy *cthulhu.Monster, player *personnage.Character, turn int) {
@@ -48,21 +49,23 @@ func enAttack(enemy *cthulhu.Monster, player *personnage.Character, turn int) {
 	}
 }
 
-func ChooseAttackType() int {
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Println("\n\033[33mChoisis ton type d'attaque :\033[0m")
-	fmt.Println("1. Attaque de base")
-	fmt.Println("2. Attaque puissante")
-	fmt.Print("Choix : ")
-	input, _ := reader.ReadString('\n')
-	input = strings.TrimSpace(input)
-	choice, err := strconv.Atoi(input)
-	if err != nil || (choice != 1 && choice != 2) {
-		fmt.Println("Choix invalide, attaque de base utilisée.")
-		return 1
-	}
-	return choice
+func ChooseAction() int {
+    reader := bufio.NewReader(os.Stdin)
+    fmt.Println("\nQue veux-tu faire ?")
+    fmt.Println("1. Attaque de base")
+    fmt.Println("2. Attaque puissante")
+    fmt.Println("3. Ouvrir l'inventaire")
+    fmt.Print("Choix : ")
+    input, _ := reader.ReadString('\n')
+    input = strings.TrimSpace(input)
+    choice, err := strconv.Atoi(input)
+    if err != nil || (choice < 1 || choice > 3) {
+        fmt.Println("Choix invalide, attaque de base utilisée.")
+        return 1
+    }
+    return choice
 }
+
 
 func ExecuteAttack(attackerName string, attacks []personnage.Attack, defenderName string, defenderHP *int) {
 	totalDamage := 0
@@ -84,34 +87,37 @@ func ExecuteAttack(attackerName string, attacks []personnage.Attack, defenderNam
 }
 
 func Battle(player *personnage.Character, enemy *cthulhu.Monster) {
-	turn := 1
+    turn := 1
 
-	for player.CurrentHP > 0 && enemy.CurrentHP > 0 {
-		fmt.Println("\n--- Tour du joueur ---")
-		fmt.Printf("\033[34mPV Joueur: %d\033[0m | \033[31mPV Ennemi: %d\033[0m\n", player.CurrentHP, enemy.CurrentHP)
+    for player.CurrentHP > 0 && enemy.CurrentHP > 0 {
+        fmt.Println("\n--- Tour du joueur ---")
+        fmt.Printf("PV Joueur: %d | PV Ennemi: %d\n", player.CurrentHP, enemy.CurrentHP)
 
-		choice := ChooseAttackType()
-		if choice == 1 {
-			ExecuteAttack(player.Name, player.Attacks1, enemy.Name, &enemy.CurrentHP)
-		} else {
-			ExecuteAttack(player.Name, player.Attacks2, enemy.Name, &enemy.CurrentHP)
-		}
+        choice := ChooseAction()
+        switch choice {
+        case 1:
+            ExecuteAttack(player.Name, player.Attacks1, enemy.Name, &enemy.CurrentHP)
+        case 2:
+            ExecuteAttack(player.Name, player.Attacks2, enemy.Name, &enemy.CurrentHP)
+        case 3:
+            menuinventaire.OpenInventory(player.Inventory, player)
+        }
 
-		if enemy.CurrentHP <= 0 {
-			fmt.Println(enemy.Name, "\033[32mest vaincu !\033[0m")
-			break
-		}
+        if enemy.CurrentHP <= 0 {
+            fmt.Println(enemy.Name, "est vaincu !")
+            break
+        }
 
-		fmt.Println("\n--- Tour de l'ennemi ---")
-		enAttack(enemy, player, turn)
+        fmt.Println("\n--- Tour de l'ennemi ---")
+        enAttack(enemy, player, turn)
 
-		if player.CurrentHP <= 0 {
-			fmt.Println(player.Name, "\033[33mest vaincu !\033[0m")
-			break
-		}
+        if player.CurrentHP <= 0 {
+            fmt.Println(player.Name, "est vaincu !")
+            break
+        }
 
-		turn++
-	}
+        turn++
+    }
 
-	fmt.Printf("\033[34mPV Joueur: %d\033[0m | \033[31mPV Ennemi: %d\033[0m\n", player.CurrentHP, enemy.CurrentHP)
+    fmt.Printf("PV Joueur: %d | PV Ennemi: %d\n", player.CurrentHP, enemy.CurrentHP)
 }
