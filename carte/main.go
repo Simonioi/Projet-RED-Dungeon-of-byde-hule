@@ -2,8 +2,10 @@ package carte
 
 import (
 	"dungeon/combat"
+	"dungeon/combatskelly"
 	"dungeon/mimic"
 	"dungeon/personnage"
+	"dungeon/skelly"
 	"fmt"
 	"os"
 	"os/exec"
@@ -77,6 +79,13 @@ func Start(p personnage.Character) {
 				// Pareil que pour le mimic mais en x=18 et y=4
 				if playerX == 18 && playerY == 4 {
 					lancerCombatSkelly()
+					skellyMonster := skelly.Skelly()
+					combatskelly.Battle(&player, &skellyMonster)
+					// Si le joueur gagne, il apparaît en Y=1, X=27
+					if player.CurrentHP > 0 && skellyMonster.CurrentHP <= 0 {
+						playerY = 1
+						playerX = 27
+					}
 				}
 			}
 		}
@@ -99,13 +108,6 @@ func lancerCombatSkelly() {
 	}
 	fmt.Printf("\033[97m%s\033[0m\n", string(content))
 
-	// ici logique reel de combat tah pokemon
-	fmt.Println("(Simulation du combat...)")
-	fmt.Println("Le combat est terminé !")
-	fmt.Println("Appuie sur Entrée pour continuer...")
-	playerY = 1
-	playerX = 27
-	fmt.Scanln()
 }
 
 // Fonction simulant le lancement d'un combat

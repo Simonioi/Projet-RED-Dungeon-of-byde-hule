@@ -25,7 +25,7 @@ func enAttack(enemy *mimic.Monster, player *personnage.Character) {
 
 func ChooseAttackType() int {
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Println("\nChoisis ton type d'attaque :")
+	fmt.Println("\n\033[34mChoisis ton type d'attaque :\033[0m")
 	fmt.Println("1. Attaque de base")
 	fmt.Println("2. Attaque puissante")
 	fmt.Print("Choix : ")
@@ -82,5 +82,5 @@ func Battle(player *personnage.Character, enemy *mimic.Monster) {
 		}
 	}
 
-	fmt.Printf("PV Joueur: %d | PV Ennemi: %d\n", player.CurrentHP, enemy.CurrentHP)
+	fmt.Printf("\033[34mPV Joueur:\033[0m %d | \033[31mPV Ennemi:\033[0m %d\n", player.CurrentHP, enemy.CurrentHP)
 }
