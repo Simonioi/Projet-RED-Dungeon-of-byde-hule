@@ -1,6 +1,7 @@
 package carte
 
 import (
+	"dungeon/coffre"
 	"dungeon/combat"
 	"dungeon/combatcthulhu"
 	"dungeon/combatskelly"
@@ -33,75 +34,97 @@ var playerX, playerY = 1, 6
 
 func Start(p personnage.Character) {
 	player = p
+	coffreOuvert := false
+	combatMimicFait := false
+	combatSkellyFait := false
 	for {
 		clear()
 		draw()
 		var input string
 		fmt.Scanln(&input)
 
-		newX, newY := playerX, playerY
-		switch input {
-		case "z":
-			newY--
-		case "s":
-			newY++
-		case "q":
-			newX--
-		case "d":
-			newX++
-		case "x":
-			fmt.Println("Meilleur qu'Ubisoft mdr")
-			return
-		}
+		for _, move := range input {
+			newX, newY := playerX, playerY
+			switch move {
+			case 'z':
+				newY--
+			case 's':
+				newY++
+			case 'q':
+				newX--
+			case 'd':
+				newX++
+			case 'x':
+				fmt.Println("Meilleur qu'Ubisoft mdr")
+				return
+			default:
+				continue
+			}
 
-		if world[newY][newX] != '#' {
+			if world[newY][newX] == '#' {
+				// Mur, on arrête la séquence
+				break
+			}
 			if world[newY][newX] == '-' {
 				if enigmePorte() {
-					// Bonne réponse : avancer
 					playerX, playerY = newX, newY
 				} else {
-					// Mauvaise réponse : reculer à Y=8, X=24
 					playerY = 8
 					playerX = 24
 					fmt.Println("La porte reste fermée. Vous reculez. Appuie sur Entrée pour réessayer...")
 					fmt.Scanln()
 				}
-			} else {
-				// Déplacement normal
-				playerX, playerY = newX, newY
-				// Combat qui start en x=4 et y=11
-				if playerX == 4 && playerY == 11 {
-					lancerCombat()
-					mimic := mimic.Mimic()
-					combat.Battle(&player, &mimic)
-					fmt.Println("Le combat est terminé !")
-					fmt.Println("Appuie sur Entrée pour continuer...")
-					fmt.Scanln()
-				}
-				// Combat contre Skelly en x=18 et y=4
-				if playerX == 18 && playerY == 4 {
-					lancerCombatSkelly()
-					skellyMonster := skelly.Skelly()
-					combatskelly.Battle(&player, &skellyMonster)
-					if player.CurrentHP > 0 && skellyMonster.CurrentHP <= 0 {
-						playerY = 1
-						playerX = 27
-					}
-				}
-				// Combat contre Cthulhu en x=43 et y=1
-				if playerX == 43 && playerY == 1 {
-					lancerCombatCthulhu()
-					cthulhuMonster := cthulhu.Cthulhu()
-					combatcthulhu.Battle(&player, &cthulhuMonster)
-					if player.CurrentHP > 0 && cthulhuMonster.CurrentHP <= 0 {
-						playerY = 1
-						playerX = 43
-					}
-				}
+				// On arrête la séquence après une énigme
+				break
+			}
 
+			// Déplacement normal
+			playerX, playerY = newX, newY
+
+			if playerY == 2 && (playerX == 9 || playerX == 10) && !coffreOuvert {
+				ouvert, _, _ := coffre.OuvrirCoffre([]string{"Potion de soin", "un enorme god pour ctululuuuuu", "Épée ancienne"}, 150)
+				if ouvert {
+					coffreOuvert = true
+				}
+				// On arrête la séquence après un événement
+				break
+			}
+
+			// Combat qui start en x=4 et y=11 (Mimic)
+			if (playerX == 4 || playerX == 5) && playerY == 11 && !combatMimicFait {
+				lancerCombat()
+				mimic := mimic.Mimic()
+				combat.Battle(&player, &mimic)
+				fmt.Println("Le combat est terminé !")
+				fmt.Println("Appuie sur Entrée pour continuer...")
+				fmt.Scanln()
+				combatMimicFait = true
+				break
+			}
+			// Combat contre Skelly en x=18 et y=4
+			if playerX == 18 && playerY == 4 && !combatSkellyFait {
+				lancerCombatSkelly()
+				skellyMonster := skelly.Skelly()
+				combatskelly.Battle(&player, &skellyMonster)
+				if player.CurrentHP > 0 && skellyMonster.CurrentHP <= 0 {
+					playerY = 1
+					playerX = 27
+				}
+				combatSkellyFait = true
+				break
+			}
+			// Combat contre Cthulhu en x=43 et y=1
+			if playerX == 43 && playerY == 1 {
+				lancerCombatCthulhu()
+				cthulhuMonster := cthulhu.Cthulhu()
+				combatcthulhu.Battle(&player, &cthulhuMonster)
+				if player.CurrentHP > 0 && cthulhuMonster.CurrentHP <= 0 {
+					playerY = 1
+					playerX = 43
+				}
+				break
 			}
 		}
-
 	}
 }
 
