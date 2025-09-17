@@ -2,7 +2,9 @@ package carte
 
 import (
 	"dungeon/combat"
+	"dungeon/combatcthulhu"
 	"dungeon/combatskelly"
+	"dungeon/cthulhu"
 	"dungeon/mimic"
 	"dungeon/personnage"
 	"dungeon/skelly"
@@ -76,17 +78,27 @@ func Start(p personnage.Character) {
 					fmt.Println("Appuie sur Entrée pour continuer...")
 					fmt.Scanln()
 				}
-				// Pareil que pour le mimic mais en x=18 et y=4
+				// Combat contre Skelly en x=18 et y=4
 				if playerX == 18 && playerY == 4 {
 					lancerCombatSkelly()
 					skellyMonster := skelly.Skelly()
 					combatskelly.Battle(&player, &skellyMonster)
-					// Si le joueur gagne, il apparaît en Y=1, X=27
 					if player.CurrentHP > 0 && skellyMonster.CurrentHP <= 0 {
 						playerY = 1
 						playerX = 27
 					}
 				}
+				// Combat contre Cthulhu en x=43 et y=1
+				if playerX == 43 && playerY == 1 {
+					lancerCombatCthulhu()
+					cthulhuMonster := cthulhu.Cthulhu()
+					combatcthulhu.Battle(&player, &cthulhuMonster)
+					if player.CurrentHP > 0 && cthulhuMonster.CurrentHP <= 0 {
+						playerY = 1
+						playerX = 43
+					}
+				}
+
 			}
 		}
 
@@ -94,6 +106,17 @@ func Start(p personnage.Character) {
 }
 
 var player personnage.Character
+
+func lancerCombatCthulhu() {
+	fmt.Println("\033[35mdans son bain ya l autre gland\033[0m")
+	content, err := os.ReadFile("cltuuululuuuuu.txt")
+	if err != nil {
+		fmt.Println("Erreur de lecture du fichier :", err)
+		return
+	}
+	fmt.Printf("\033[35m%s\033[0m\n", string(content))
+	fmt.Println("Prépare-toi à affronter Cthulhu !")
+}
 
 func lancerCombatSkelly() {
 	fmt.Println("\033[33mDevant vous une horde de squelette. Un sans jambe rampe sans but, un autre sans bras cours en rond et un dernier semble plus menaçant armé d'une épée rouillé et d'un casque.\033[0m")
