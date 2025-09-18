@@ -160,7 +160,12 @@ func Battle(player *personnage.Character, enemy *cthulhu.Monster) {
 	fmt.Printf("PV Joueur: %d | PV Ennemi: %d\n", player.CurrentHP, enemy.CurrentHP)
 	if player.CurrentHP <= 0 {
 		clearScreen()
-		fmt.Println("Tu es mort.")
+		content, err := os.ReadFile("wasted.txt")
+		if err != nil {
+			fmt.Println("Erreur de lecture du fichier :", err)
+			return
+		}
+		fmt.Printf("\033[31m%s\033[0m\n", string(content))
 		fmt.Println("Appuie sur Entrée pour quitter...")
 		fmt.Scanln()
 		os.Exit(0)
