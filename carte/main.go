@@ -234,3 +234,5 @@ func enigmePorte() bool {
 	fmt.Println("Mauvaise réponse !")
 	return false
 }
+
+//ooooo
