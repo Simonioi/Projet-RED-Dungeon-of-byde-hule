@@ -6,7 +6,6 @@ import (
 	"dungeon/combatcthulhu"
 	"dungeon/combatskelly"
 	"dungeon/cthulhu"
-	"dungeon/inventaire/stock"
 	"dungeon/mimic"
 	"dungeon/personnage"
 	"dungeon/personnage/lvlup"
@@ -25,7 +24,7 @@ var world = []string{
 	"##########    #  #        #  #  #  #      #         #",
 	"#             #  #######-##  #  #  #####  #         #",
 	"##########    #  #        #  #  #  #      #         #",
-	"#             #  # $      #  #  #  #  #   #         #",
+	"#             #  #$       #  #  #  #  #   #         #",
 	"#       #        #        #  #  #  #  #   #   🛁    #",
 	"#       #   ##########   ##  #  #  #  #   #         #",
 	"#   ロ  #                 #     #     #   #         #",
@@ -59,8 +58,17 @@ func Start(p personnage.Character) {
 			case 'x':
 				fmt.Println("Meilleur qu'Ubisoft mdr")
 				return
+
 			default:
 				continue
+			}
+			// Activation du marchand UNIQUEMENT en x=18 et y=8
+			if playerX == 18 && playerY == 8 {
+				marchand.ActiverMarchand(player.Inventory)
+				// Déplace le joueur à la sortie du marchand
+				playerX = 20
+				playerY = 8
+				break
 			}
 
 			if world[newY][newX] == '#' {
@@ -84,10 +92,9 @@ func Start(p personnage.Character) {
 			playerX, playerY = newX, newY
 
 			if playerY == 2 && (playerX == 9 || playerX == 10) && !coffreOuvert {
-				ouvert, _, _ := coffre.OuvrirCoffre([]string{"parchemin de boule de feu", "20 pieces d'or"}, 20)
+				ouvert, _, _ := coffre.OuvrirCoffre([]string{"parchemin de boule de feu", "20£"}, 20)
 				if ouvert {
-					player.Inventory.AddItem(stock.Argent)
-					stock.Argent.Quantity = 20
+					player.Inventory.AddMoney(20)
 					player.Inventory.AddItem(stock.FireScroll)
 				}
 				if ouvert {
@@ -219,3 +226,5 @@ func enigmePorte() bool {
 	fmt.Println("Mauvaise réponse !")
 	return false
 }
+
+//ooooo

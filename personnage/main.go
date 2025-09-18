@@ -96,10 +96,10 @@ func CreateBarbarian(name string) Character {
 	}
 
 	attacks1 := []Attack{
-		{Name: "Attaque rapide", Damage: sword.Damage, HitChance: 0.95},
+		{Name: "Attaque rapide", Damage: sword.BaseDamage, HitChance: 0.95},
 	}
 	attacks2 := []Attack{
-		{Name: "Attaque puissante", Damage: sword.Damage + 1, HitChance: 0.80},
+		{Name: "Attaque puissante", Damage: sword.BaseDamage + 1, HitChance: 0.80},
 	}
 
 	baseHP := 8 + armor.HealthBoost
