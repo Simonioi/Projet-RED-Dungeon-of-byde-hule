@@ -134,7 +134,7 @@ func CreateMage(name string) Character {
 	}
 
 	attacks1 := []Attack{
-		{Name: "Coup de bâton", Damage: staff.Damage, HitChance: 0.70},
+		{Name: "Coup de bâton", Damage: staff.BaseDamage, HitChance: 0.70},
 	}
 	attacks2 := []Attack{
 		{Name: "Missile magique", Damage: 4, HitChance: 0.95},
