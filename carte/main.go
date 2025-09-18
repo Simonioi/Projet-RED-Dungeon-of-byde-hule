@@ -59,7 +59,6 @@ func Start(p personnage.Character) {
 			case 'x':
 				fmt.Println("Meilleur qu'Ubisoft mdr")
 				return
-				// Détection de la case $ (marchand)
 
 			default:
 				continue
