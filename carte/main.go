@@ -33,7 +33,7 @@ var world = []string{
 	"#####################################################",
 }
 
-var playerX, playerY = 34, 6
+var playerX, playerY = 1, 6
 
 func Start(p personnage.Character) {
 	player = p
