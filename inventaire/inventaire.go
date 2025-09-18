@@ -147,5 +147,7 @@ func CreateMageInventory() *Inventory {
 	inv.AddItem(stock.Robe)
 	inv.AddItem(stock.Staff)
 	inv.AddItem(stock.PotionMana)
+	inv.AddItem(stock.PotionMajor)
+	inv.AddItem(stock.PotionMinor)
 	return inv
 }
