@@ -17,3 +17,5 @@ var (
 	Sword2      = item.Item{Name: "Épée de Conan", Damage: 4, Quantity: 1}
 	Staff2      = item.Item{Name: "Bâton de Elminster", Damage: 3, Quantity: 1}
 )
+
+//ooo
