@@ -6,11 +6,11 @@ import (
 	"dungeon/combatcthulhu"
 	"dungeon/combatskelly"
 	"dungeon/cthulhu"
+	"dungeon/inventaire/stock"
+	"dungeon/marchand"
 	"dungeon/mimic"
 	"dungeon/personnage"
 	"dungeon/personnage/lvlup"
-	"dungeon/marchand"
-	"dungeon/inventaire/stock"
 	"dungeon/skelly"
 	"fmt"
 	"os"
@@ -94,7 +94,7 @@ func Start(p personnage.Character) {
 			playerX, playerY = newX, newY
 
 			if playerY == 2 && (playerX == 9 || playerX == 10) && !coffreOuvert {
-				ouvert, _, _ := coffre.OuvrirCoffre([]string{"parchemin de boule de feu", "20£"}, 20)
+				ouvert, _, _ := coffre.OuvrirCoffre([]string{"parchemin de boule de feu"}, 20)
 				if ouvert {
 					player.Inventory.AddMoney(20)
 					player.Inventory.AddItem(stock.FireScroll)
@@ -111,6 +111,10 @@ func Start(p personnage.Character) {
 				lancerCombat()
 				mimic := mimic.Mimic()
 				combat.Battle(&player, &mimic)
+				if player.CurrentHP > 0 && mimic.CurrentHP <= 0 {
+					player.Inventory.AddMoney(20)
+					fmt.Println("\033[33mDans sa gueule béante vous trouvez 20 pièces d'or !\033[0m")
+				}
 				fmt.Println("Le combat est terminé !")
 				fmt.Println("Appuie sur Entrée pour continuer...")
 				fmt.Scanln()
@@ -126,6 +130,9 @@ func Start(p personnage.Character) {
 					playerY = 1
 					playerX = 27
 				}
+				fmt.Println("Le combat est terminé !")
+				fmt.Println("Appuie sur Entrée pour continuer...")
+				fmt.Scanln()
 				combatSkellyFait = true
 				break
 			}
@@ -147,7 +154,10 @@ func Start(p personnage.Character) {
 var player personnage.Character
 
 func lancerCombatCthulhu() {
-	fmt.Println("\033[37mdans son bain ya l autre gland\033[0m")
+	fmt.Println("\033[33mVous entrez alors dans une longue piece éclairé par des bougies parfumé au jasmins, des accords éthéré de harpes vienne d'une sirène accompagnant le chant aigu d'une large créatures aux tentacules impresionnantes qui se savonne dans un bain d'eau fumante et de pétale de rose. \033[0m")
+	fmt.Printf("«Qui ose me déranger dans mon bain ?»\n")
+	fmt.Println("\033[33mLe grand Cthulhu se tourne vers vous\033[0m")
+	fmt.Println("Roll for initiative")
 	content, err := os.ReadFile("cltuuululuuuuu.txt")
 	if err != nil {
 		fmt.Println("Erreur de lecture du fichier :", err)
@@ -158,10 +168,10 @@ func lancerCombatCthulhu() {
 }
 
 func lancerCombatSkelly() {
-	fmt.Println("\033[33mDevant vous une horde de squelette. Un sans jambe rampe sans but, un autre sans bras cours en rond et un dernier semble plus menaçant armé d'une épée rouillé et d'un casque.\033[0m")
+	fmt.Println("\033[33mDevant vous une horde de squelette, un sans jambe rampe sans but, un autre sans bras cours en rond et un dernier semble plus menaçant armé d'une épée rouillé et d'un casque.\033[0m")
 	fmt.Println()
 	fmt.Println("\033[33mUn crâne au vous regarde et dis :\033[0m")
-	fmt.Println("«Kakakaka te revoila Len..., oh! Non. Qui es tu ? »")
+	fmt.Println("«Kakakaka te revoila Len..., oh! Non. Qui es tu ?»")
 	fmt.Println("\033[31mATTAQUE LE !!!\033[0m")
 	content, err := os.ReadFile("skelly.txt")
 	if err != nil {
