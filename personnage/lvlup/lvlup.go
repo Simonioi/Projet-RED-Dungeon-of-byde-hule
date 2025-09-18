@@ -18,7 +18,7 @@ func LevelUp(p *personnage.Character) {
 		p.Capacité = append(p.Capacité, personnage.Attack{Name: "Boule de feu", Damage: 8, HitChance: 1.0})
 		fmt.Println("\033[35mNouvelle capacité apprise : Boule de feu (Dégâts : 8)\033[0m")
 	case "Barbare":
-		p.Capacité = append(p.Capacité, personnage.Attack{Name: "I WOULD LIKE TO RAGE", TempDamageBoost: 4, TempHealthBoost: 2, Duration: 5})
+		p.Capacité = append(p.Capacité, personnage.Attack{Name: "I WOULD LIKE TO RAGE", TempDamageBoost: 4, TempHealthBoost: 2, Duration: 6})
 		fmt.Println("\033[35mNouvelle capacité apprise : I WOULD LIKE TO RAGE\033[0m")
 	}
 	fmt.Println("Appuyez sur Entrée pour continuer...")

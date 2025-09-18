@@ -99,14 +99,11 @@ func Battle(player *personnage.Character, enemy *skelly.Monster) {
                 continue
             }
         case 4:
-            rage := personnage.Attack{
-                Name:            "I WOULD LIKE TO RAGE",
-                TempDamageBoost: 4,
-                TempHealthBoost: 2,
-                Duration:        5,
+            ExecuteAttack(player.Name, player.Capacité, enemy.Name, &enemy.CurrentHP)
+            if player.Class == "Barbare" {
+                player.ActivateAttackBoost(personnage.Attack{Name: "I WOULD LIKE TO RAGE", TempDamageBoost: 4, TempHealthBoost: 2, Duration: 6})
+                    continue
             }
-            player.ActivateAttackBoost(rage)
-            fmt.Println("\033[35mCapacité spéciale activée : Rage pendant 5 tours !\033[0m")
         }
 
         if player.PendingDamage > 0 {

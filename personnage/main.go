@@ -200,3 +200,5 @@ func main() {
 	fmt.Printf("Bienvenue %s le %s ! PV: %d/%d, PM: %d/%d\n",
 		player.Name, player.Class, player.CurrentHP, player.MaxHP, player.CurrentMP, player.MaxMP)
 }
+
+//truc
