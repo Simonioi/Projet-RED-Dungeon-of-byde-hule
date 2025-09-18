@@ -6,14 +6,14 @@ import (
 	"fmt"
 )
 
-// Déclaration des 3 nouveaux items d'alchimie
+// Déclaration des 3 items de la potion super cool
 var (
 	SolanumTuberosum   = item.Item{Name: "Solanum tuberosum (patate)", Quantity: 1}
 	ZingiberOfficinale = item.Item{Name: "Zingiber officinale", Quantity: 1}
 	CitrusLimus        = item.Item{Name: "Citrus limus", Quantity: 1}
 )
 
-// Table d'alchimie : combine les 3 items pour créer une Potion majeure
+// Table d'alchimie qui combine les 3 items pour créer une Potion majeure
 func UtiliserTableAlchimie(inventaire *[]item.Item) {
 	hasPatate := false
 	hasZingiber := false
