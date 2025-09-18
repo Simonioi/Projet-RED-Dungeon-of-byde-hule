@@ -20,8 +20,8 @@ type Monster struct {
 func Cthulhu() Monster {
 	return Monster{
 		Name:      "Cthulhu",
-		MaxHP:     500,
-		CurrentHP: 500,
+		MaxHP:     666,
+		CurrentHP: 666,
 		Attack1: []Attack{
 			{Name: "trempette", Damage: 1, HitChance: 1.0},
 		},
