@@ -48,3 +48,5 @@ func ActiverMarchand(inv interface {
 	fmt.Println("Appuie sur Entrée pour continuer...")
 	fmt.Scanln()
 }
+
+//ooo
