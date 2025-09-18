@@ -9,6 +9,8 @@ import (
 	"dungeon/mimic"
 	"dungeon/personnage"
 	"dungeon/personnage/lvlup"
+	"dungeon/marchand"
+	"dungeon/inventaire/stock"
 	"dungeon/skelly"
 	"fmt"
 	"os"
