@@ -73,22 +73,7 @@ func Battle(player *personnage.Character, enemy *skelly.Monster) {
 			fmt.Printf("\033[35mBoost actif: %s (%d tours restants)\033[0m\n", player.Capacité[0].Name, player.Capacité[0].Duration)
 		}
 
-		fmt.Println("\nQue veux-tu faire ?")
-		fmt.Println("1. Attaque de base")
-		fmt.Println("2. Attaque puissante")
-		fmt.Println("3. Ouvrir l'inventaire")
-		fmt.Println("4. Activer capacité spéciale")
-		fmt.Print("Choix : ")
-
-		reader := bufio.NewReader(os.Stdin)
-		input, _ := reader.ReadString('\n')
-		input = strings.TrimSpace(input)
-		choice, err := strconv.Atoi(input)
-		if err != nil || choice < 1 || choice > 4 {
-			fmt.Println("Choix invalide, attaque de base utilisée.")
-			choice = 1
-		}
-
+		choice := ChooseAction()
 		switch choice {
 		case 1:
 			ExecuteAttack(player.Name, player.Attacks1, enemy.Name, &enemy.CurrentHP)
