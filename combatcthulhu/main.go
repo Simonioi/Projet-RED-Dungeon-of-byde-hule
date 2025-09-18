@@ -12,7 +12,7 @@ import (
 	"strconv"
 	"strings"
 )
-
+// script de combat contre Cthulhu, (oui, c'est pas possible de gagner, deso :/)
 func enAttack(enemy *cthulhu.Monster, player *personnage.Character, turn int) {
 	var selectedAttack []cthulhu.Attack
 
@@ -49,7 +49,7 @@ func enAttack(enemy *cthulhu.Monster, player *personnage.Character, turn int) {
 		player.CurrentHP = 0
 	}
 }
-
+// fonction de choix d'action du joueur
 func ChooseAction() int {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("\nQue veux-tu faire ?")
@@ -86,7 +86,7 @@ func ExecuteAttack(attackerName string, attacks []personnage.Attack, defenderNam
 		*defenderHP = 0
 	}
 }
-
+// fonction de combat contre cthulhu qui implémente un script de tour afin d'avoir des attaques précises a chaque tour.
 func Battle(player *personnage.Character, enemy *cthulhu.Monster) {
 	turn := 1
 
@@ -114,7 +114,11 @@ func Battle(player *personnage.Character, enemy *cthulhu.Monster) {
 			}
 		case 4:
 			ExecuteAttack(player.Name, player.Capacité, enemy.Name, &enemy.CurrentHP)
-
+			if player.Class == "Barbare" {
+				player.ActivateAttackBoost(personnage.Attack{Name: "I WOULD LIKE TO RAGE", TempDamageBoost: 4, TempHealthBoost: 2, Duration: 6})
+				continue
+			}
+// cas spéciale de la capacité spé. le barbare a un boost, et le mage une boule de feu.
 		}
 		// Appliquer les dégâts d’un objet offensif si présent
 		if player.PendingDamage > 0 {

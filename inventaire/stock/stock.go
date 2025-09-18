@@ -18,4 +18,4 @@ var (
 	Staff2      = item.Item{Name: "Bâton de Elminster", BaseDamage: 3, Quantity: 1}
 )
 
-//ooo
+//bibliothèque des items dispo dans le jeu.

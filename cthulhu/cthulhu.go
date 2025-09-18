@@ -16,7 +16,7 @@ type Monster struct {
 	Attack4   []Attack
 	Attack5   []Attack
 }
-
+// création de Cthulhu, le Boss Final
 func Cthulhu() Monster {
 	return Monster{
 		Name:      "Cthulhu",

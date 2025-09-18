@@ -23,3 +23,6 @@ func Mimic() Monster {
 		},
 	}
 }
+
+// premier monstre du jeu, le mimic
+// contrairement a Cthulhu il n'a qu'une seule attaque peu puissante.

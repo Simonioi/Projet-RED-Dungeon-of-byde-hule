@@ -9,3 +9,5 @@ type Item struct {
 	HealMana    int
 	Quantity    int
 }
+
+// stockage de le structure d'item

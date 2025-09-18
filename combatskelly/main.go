@@ -25,6 +25,7 @@ func enAttack(enemy *skelly.Monster, player *personnage.Character) {
 	fmt.Printf("\033[31m%s attaque %s et inflige %d dégâts !\n\033[0m", enemy.Name, player.Name, totalDamage)
 }
 
+
 func ChooseAction() int {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("\nQue veux-tu faire ?")
@@ -108,7 +109,8 @@ func Battle(player *personnage.Character, enemy *skelly.Monster) {
 		}
 
 		fmt.Println("\n--- Tour de l'ennemi ---")
-		enAttack(enemy, player)
+	enAttack(enemy, player)
+
 		if player.CurrentHP <= 0 {
 			fmt.Println(player.Name, "\033[33mest vaincu ! \033[0m")
 			break
