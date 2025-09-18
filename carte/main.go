@@ -6,13 +6,14 @@ import (
 	"dungeon/combatcthulhu"
 	"dungeon/combatskelly"
 	"dungeon/cthulhu"
+	"dungeon/inventaire/stock"
+	"dungeon/marchand"
 	"dungeon/mimic"
 	"dungeon/personnage"
 	"dungeon/skelly"
 	"fmt"
 	"os"
 	"os/exec"
-	"dungeon/inventaire/stock"
 )
 
 var world = []string{
@@ -24,7 +25,7 @@ var world = []string{
 	"##########    #  #        #  #  #  #      #         #",
 	"#             #  #######-##  #  #  #####  #         #",
 	"##########    #  #        #  #  #  #      #         #",
-	"#             #  # $      #  #  #  #  #   #         #",
+	"#             #  #$       #  #  #  #  #   #         #",
 	"#       #        #        #  #  #  #  #   #   🛁    #",
 	"#       #   ##########   ##  #  #  #  #   #         #",
 	"#   ロ  #                 #     #     #   #         #",
@@ -58,8 +59,25 @@ func Start(p personnage.Character) {
 			case 'x':
 				fmt.Println("Meilleur qu'Ubisoft mdr")
 				return
+				// Détection de la case $ (marchand)
+
 			default:
 				continue
+			}
+			// Activation du marchand UNIQUEMENT en x=18 et y=8
+			if playerX == 18 && playerY == 8 {
+				argent := 0
+				for _, it := range player.Inventory.GetItems() {
+					if it.Name == "£" {
+						argent = it.Quantity
+						break
+					}
+				}
+				marchand.ActiverMarchand(player.Inventory, &argent)
+				// Déplace le joueur à la sortie du marchand
+				playerX = 20
+				playerY = 8
+				break
 			}
 
 			if world[newY][newX] == '#' {
