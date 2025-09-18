@@ -10,6 +10,8 @@ import (
 	"strings"
 )
 
+var musicCmd *exec.Cmd
+
 func clearScreen() {
 	if runtime.GOOS == "windows" {
 		cmd := exec.Command("cmd", "/c", "cls")
@@ -19,7 +21,30 @@ func clearScreen() {
 		fmt.Print("\033[H\033[2J")
 	}
 }
+
+func playMusicLoop() {
+	go func() {
+		for {
+			if runtime.GOOS == "windows" {
+				musicCmd = exec.Command("powershell", "-c", "while ($true) { (New-Object Media.SoundPlayer 'Pokémon-GO-Night-Theme-_8-bit-Arrangement_.wav').PlaySync() }")
+				musicCmd.Run()
+			} else {
+				musicCmd = exec.Command("ffplay", "-nodisp", "-autoexit", "-loop", "0", "Pokémon-GO-Night-Theme-_8-bit-Arrangement_.wav")
+				musicCmd.Run()
+			}
+		}
+	}()
+}
+
+func stopMusic() {
+	if musicCmd != nil && musicCmd.Process != nil {
+		musicCmd.Process.Kill()
+	}
+}
+
 func main() {
+	defer stopMusic()
+	playMusicLoop()
 	// Clear screen avant l'intro
 	clearScreen()
 	// Intro mission
