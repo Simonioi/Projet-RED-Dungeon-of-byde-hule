@@ -92,7 +92,31 @@ func Battle(player *personnage.Character, enemy *cthulhu.Monster) {
         fmt.Println("\n--- Tour du joueur ---")
         fmt.Printf("PV Joueur: %d | PV Ennemi: %d\n", player.CurrentHP, enemy.CurrentHP)
 
-        choice := ChooseAction()
+        // ✅ Mise à jour des boosts temporaires
+        player.TickAttackBoost()
+
+        // ✅ Affichage du boost actif
+        if len(player.Capacité) > 0 && player.Capacité[0].Duration > 0 {
+            fmt.Printf("\033[35mBoost actif: %s (%d tours restants)\033[0m\n", player.Capacité[0].Name, player.Capacité[0].Duration)
+        }
+
+        // ✅ Choix d'action avec option 4
+        fmt.Println("\nQue veux-tu faire ?")
+        fmt.Println("1. Attaque de base")
+        fmt.Println("2. Attaque puissante")
+        fmt.Println("3. Ouvrir l'inventaire")
+        fmt.Println("4. Activer capacité spéciale")
+        fmt.Print("Choix : ")
+
+        reader := bufio.NewReader(os.Stdin)
+        input, _ := reader.ReadString('\n')
+        input = strings.TrimSpace(input)
+        choice, err := strconv.Atoi(input)
+        if err != nil || choice < 1 || choice > 4 {
+            fmt.Println("Choix invalide, attaque de base utilisée.")
+            choice = 1
+        }
+
         switch choice {
         case 1:
             ExecuteAttack(player.Name, player.Attacks1, enemy.Name, &enemy.CurrentHP)
@@ -101,9 +125,17 @@ func Battle(player *personnage.Character, enemy *cthulhu.Monster) {
         case 3:
             used := menuinventaire.OpenInventory(player.Inventory, player)
             if !used {
-                // Si aucun objet utilisé, on recommence le tour du joueur
                 continue
             }
+        case 4:
+            rage := personnage.Attack{
+                Name:            "I WOULD LIKE TO RAGE",
+                TempDamageBoost: 4,
+                TempHealthBoost: 2,
+                Duration:        5,
+            }
+            player.ActivateAttackBoost(rage)
+            fmt.Println("\033[35mCapacité spéciale activée : Rage pendant 5 tours !\033[0m")
         }
 
         // Appliquer les dégâts d’un objet offensif si présent
