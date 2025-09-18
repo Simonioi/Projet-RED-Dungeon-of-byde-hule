@@ -18,6 +18,7 @@ import (
 	"os/exec"
 )
 
+// Création de la map et la position du joueur
 var world = []string{
 	"#####################################################",
 	"#        ロ      #           #     #                #",
@@ -65,10 +66,10 @@ func Start(p personnage.Character) {
 			default:
 				continue
 			}
-			// Activation du marchand UNIQUEMENT en x=18 et y=8
+			// Activation du marchand en x=18 et y=8
 			if playerX == 18 && playerY == 8 {
 				marchand.ActiverMarchand(player.Inventory)
-				// Déplace le joueur à la sortie du marchand
+				// Déplace le joueur à la sortie du marchand parce que sinon veut pas te laisser partir ce bâtard
 				playerX = 20
 				playerY = 8
 				break
@@ -94,7 +95,7 @@ func Start(p personnage.Character) {
 			}
 
 			if world[newY][newX] == '#' {
-				// Mur, on arrête la séquence
+				// Mur donc tu peux pas continuer
 				break
 			}
 			if world[newY][newX] == '-' {
@@ -106,11 +107,11 @@ func Start(p personnage.Character) {
 					fmt.Println("La porte reste fermée. Vous reculez. Appuie sur Entrée pour réessayer...")
 					fmt.Scanln()
 				}
-				// On arrête la séquence après une énigme
+
 				break
 			}
 
-			// Déplacement normal
+			// Coffre de fou
 			playerX, playerY = newX, newY
 
 			if playerY == 2 && (playerX == 9 || playerX == 10) && !coffreOuvert {
@@ -122,7 +123,7 @@ func Start(p personnage.Character) {
 				if ouvert {
 					coffreOuvert = true
 				}
-				// On arrête la séquence après un événement
+
 				break
 			}
 			if playerY == 10 && (playerX == 38 || playerX == 39 || playerX == 40) && !coffreOuvert {
@@ -135,7 +136,7 @@ func Start(p personnage.Character) {
 				if ouvert {
 					coffreOuvert = true
 				}
-				// On arrête la séquence après un événement
+
 				break
 			}
 			// Combat qui start en x=4 et y=11 (Mimic)
@@ -185,6 +186,7 @@ func Start(p personnage.Character) {
 
 var player personnage.Character
 
+// Début du combat contre Cthulhu
 func lancerCombatCthulhu() {
 	fmt.Println("\033[33mVous entrez alors dans une longue piece éclairé par des bougies parfumé au jasmins, des accords éthéré de harpes vienne d'une sirène accompagnant le chant aigu d'une large créatures aux tentacules impresionnantes qui se savonne dans un bain d'eau fumante et de pétale de rose. \033[0m")
 	fmt.Printf("«Qui ose me déranger dans mon bain ?»\n")
@@ -199,6 +201,7 @@ func lancerCombatCthulhu() {
 	fmt.Println("Prépare-toi à affronter Cthulhu !")
 }
 
+// Début du combat contre Skelly
 func lancerCombatSkelly() {
 	fmt.Println("\033[33mDevant vous une horde de squelette, un sans jambe rampe sans but, un autre sans bras cours en rond et un dernier semble plus menaçant armé d'une épée rouillé et d'un casque.\033[0m")
 	fmt.Println()
@@ -214,7 +217,7 @@ func lancerCombatSkelly() {
 
 }
 
-// Fonction simulant le lancement d'un combat
+// Début du combat contrte le mimic
 func lancerCombat() {
 	fmt.Println("\033[33mVous trouvez un coffre :\033[0m")
 	fmt.Println("Le coffre s'agite, et s'ouvre revelant une gueule béante et des dents acérés, s'ouvre alors des yeux mauvais")
@@ -270,5 +273,3 @@ func enigmePorte() bool {
 	fmt.Println("Mauvaise réponse !")
 	return false
 }
-
-//ooooo
