@@ -11,6 +11,42 @@ type Inventory struct {
 	Items []item.Item
 }
 
+// GetMoney retourne la quantité de £ dans l'inventaire
+func (inv *Inventory) GetMoney() int {
+	for _, it := range inv.Items {
+		if it.Name == "£" {
+			return it.Quantity
+		}
+	}
+	return 0
+}
+
+// AddMoney ajoute une certaine quantité de £ à l'inventaire
+func (inv *Inventory) AddMoney(amount int) {
+	for i, it := range inv.Items {
+		if it.Name == "£" {
+			inv.Items[i].Quantity += amount
+			return
+		}
+	}
+	// Si pas trouvé, ajoute un nouvel item £
+	inv.AddItem(item.Item{Name: "£", Quantity: amount})
+}
+
+// RemoveMoney retire une certaine quantité de £ de l'inventaire
+func (inv *Inventory) RemoveMoney(amount int) bool {
+	for i, it := range inv.Items {
+		if it.Name == "£" && it.Quantity >= amount {
+			inv.Items[i].Quantity -= amount
+			if inv.Items[i].Quantity == 0 {
+				inv.RemoveItem(i)
+			}
+			return true
+		}
+	}
+	return false
+}
+
 // NewInventory crée un nouvel inventaire vide
 func NewInventory() *Inventory {
 	return &Inventory{

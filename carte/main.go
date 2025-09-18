@@ -65,14 +65,7 @@ func Start(p personnage.Character) {
 			}
 			// Activation du marchand UNIQUEMENT en x=18 et y=8
 			if playerX == 18 && playerY == 8 {
-				argent := 0
-				for _, it := range player.Inventory.GetItems() {
-					if it.Name == "£" {
-						argent = it.Quantity
-						break
-					}
-				}
-				marchand.ActiverMarchand(player.Inventory, &argent)
+				marchand.ActiverMarchand(player.Inventory)
 				// Déplace le joueur à la sortie du marchand
 				playerX = 20
 				playerY = 8
@@ -100,10 +93,9 @@ func Start(p personnage.Character) {
 			playerX, playerY = newX, newY
 
 			if playerY == 2 && (playerX == 9 || playerX == 10) && !coffreOuvert {
-				ouvert, _, _ := coffre.OuvrirCoffre([]string{"parchemin de boule de feu", "20 pieces d'or"}, 20)
+				ouvert, _, _ := coffre.OuvrirCoffre([]string{"parchemin de boule de feu", "20£"}, 20)
 				if ouvert {
-					player.Inventory.AddItem(stock.Argent)
-					stock.Argent.Quantity = 20
+					player.Inventory.AddMoney(20)
 					player.Inventory.AddItem(stock.FireScroll)
 				}
 				if ouvert {
