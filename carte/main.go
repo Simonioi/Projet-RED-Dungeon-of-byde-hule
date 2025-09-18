@@ -29,7 +29,7 @@ var world = []string{
 	"#             #  #$       #  #  #  #  #   #         #",
 	"#       #        #        #  #  #  #  #   #   🛁    #",
 	"#       #   ##########   ##  #  #  #  #   #         #",
-	"#   ロ  #                 #     #     #   #         #",
+	"#   ロ  #                 #     #     #___#         #",
 	"#####################################################",
 }
 
@@ -105,7 +105,19 @@ func Start(p personnage.Character) {
 				// On arrête la séquence après un événement
 				break
 			}
-
+			if playerY == 10 && (playerX == 38 || playerX == 39 || playerX == 40) && !coffreOuvert {
+				ouvert, _, _ := coffre.Ouvrirbibliotheque([]string{"parchemin de boule de feu"}, 20)
+				if ouvert {
+					player.Inventory.AddItem(stock.CitrusLimus)
+					player.Inventory.AddItem(stock.SolanumTuberosumPatate)
+					player.Inventory.AddItem(stock.ZingiberOfficinale)
+				}
+				if ouvert {
+					coffreOuvert = true
+				}
+				// On arrête la séquence après un événement
+				break
+			}
 			// Combat qui start en x=4 et y=11 (Mimic)
 			if (playerX == 4 || playerX == 5) && playerY == 11 && !combatMimicFait {
 				lancerCombat()
