@@ -100,6 +100,10 @@ func Battle(player *personnage.Character, enemy *skelly.Monster) {
             }
         case 4:
             ExecuteAttack(player.Name, player.Capacité, enemy.Name, &enemy.CurrentHP)
+            if player.Class == "Barbare" {
+                player.ActivateAttackBoost(personnage.Attack{Name: "I WOULD LIKE TO RAGE", TempDamageBoost: 4, TempHealthBoost: 2, Duration: 6})
+                    continue
+            }
         }
 
         if player.PendingDamage > 0 {
