@@ -12,6 +12,7 @@ import (
 	"strconv"
 	"strings"
 )
+
 // fonction d'attaque du Mimic
 func enAttack(enemy *mimic.Monster, player *personnage.Character) {
 	totalDamage := 0
@@ -24,13 +25,14 @@ func enAttack(enemy *mimic.Monster, player *personnage.Character) {
 	player.CurrentHP -= totalDamage
 	fmt.Printf("\033[31m%s attaque %s et inflige %d dégâts !\n\033[0m", enemy.Name, player.Name, totalDamage)
 }
+
 // fonction de choix d'action du joueur
 func ChooseAction() int {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("\nQue veux-tu faire ?")
-	fmt.Println("1. Attaque de base")
-	fmt.Println("2. Attaque puissante")
-	fmt.Println("3. Ouvrir l'inventaire")
+	fmt.Println("\033[36m1. Attaque de base\033[0m")
+	fmt.Println("\033[34m2. Attaque puissante\033[0m")
+	fmt.Println("\033[33m3. Ouvrir l'inventaire\033[0m")
 	fmt.Print("Choix : ")
 	input, _ := reader.ReadString('\n')
 	input = strings.TrimSpace(input)
@@ -41,6 +43,7 @@ func ChooseAction() int {
 	}
 	return choice
 }
+
 // fonction qui sert à l'attaque
 func ExecuteAttack(attackerName string, attacks []personnage.Attack, defenderName string, defenderHP *int) {
 	totalDamage := 0
@@ -60,6 +63,7 @@ func ExecuteAttack(attackerName string, attacks []personnage.Attack, defenderNam
 		*defenderHP = 0
 	}
 }
+
 // combat de base, joueur vs Mimic
 func Battle(player *personnage.Character, enemy *mimic.Monster) {
 	for player.CurrentHP > 0 && enemy.CurrentHP > 0 {
@@ -89,7 +93,7 @@ func Battle(player *personnage.Character, enemy *mimic.Monster) {
 			player.PendingDamage = 0
 			player.PendingDamageText = ""
 		}
-	
+
 		if enemy.CurrentHP <= 0 {
 			fmt.Println(enemy.Name, "\033[32mest vaincu !\033[0m")
 			break

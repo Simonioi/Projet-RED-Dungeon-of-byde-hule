@@ -12,6 +12,7 @@ import (
 	"strconv"
 	"strings"
 )
+
 // script de combat contre Cthulhu, (oui, c'est pas possible de gagner, deso :/)
 func enAttack(enemy *cthulhu.Monster, player *personnage.Character, turn int) {
 	var selectedAttack []cthulhu.Attack
@@ -49,14 +50,15 @@ func enAttack(enemy *cthulhu.Monster, player *personnage.Character, turn int) {
 		player.CurrentHP = 0
 	}
 }
+
 // fonction de choix d'action du joueur
 func ChooseAction() int {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("\nQue veux-tu faire ?")
-	fmt.Println("1. Attaque de base")
-	fmt.Println("2. Attaque puissante")
-	fmt.Println("3. Ouvrir l'inventaire")
-	fmt.Println("4. Activer capacité spéciale")
+	fmt.Println("\033[36m1. Attaque de base\033[0m")
+	fmt.Println("\033[34m2. Attaque puissante\033[0m")
+	fmt.Println("\033[33m3. Ouvrir l'inventaire\033[0m")
+	fmt.Println("\033[31m4. Activer capacité spéciale\033[0m")
 	fmt.Print("Choix : ")
 	input, _ := reader.ReadString('\n')
 	input = strings.TrimSpace(input)
@@ -86,6 +88,7 @@ func ExecuteAttack(attackerName string, attacks []personnage.Attack, defenderNam
 		*defenderHP = 0
 	}
 }
+
 // fonction de combat contre cthulhu qui implémente un script de tour afin d'avoir des attaques précises a chaque tour.
 func Battle(player *personnage.Character, enemy *cthulhu.Monster) {
 	turn := 1
@@ -100,8 +103,7 @@ func Battle(player *personnage.Character, enemy *cthulhu.Monster) {
 			fmt.Printf("\033[35mBoost actif: %s (%d tours restants)\033[0m\n", player.Capacité[0].Name, player.Capacité[0].Duration)
 		}
 
-		
-        choice := ChooseAction()
+		choice := ChooseAction()
 		switch choice {
 		case 1:
 			ExecuteAttack(player.Name, player.Attacks1, enemy.Name, &enemy.CurrentHP)
@@ -118,7 +120,7 @@ func Battle(player *personnage.Character, enemy *cthulhu.Monster) {
 				player.ActivateAttackBoost(personnage.Attack{Name: "I WOULD LIKE TO RAGE", TempDamageBoost: 4, TempHealthBoost: 2, Duration: 6})
 				continue
 			}
-// cas spéciale de la capacité spé. le barbare a un boost, et le mage une boule de feu.
+			// cas spéciale de la capacité spé. le barbare a un boost, et le mage une boule de feu.
 		}
 		// Appliquer les dégâts d’un objet offensif si présent
 		if player.PendingDamage > 0 {

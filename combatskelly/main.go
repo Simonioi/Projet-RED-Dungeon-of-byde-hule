@@ -25,14 +25,13 @@ func enAttack(enemy *skelly.Monster, player *personnage.Character) {
 	fmt.Printf("\033[31m%s attaque %s et inflige %d dégâts !\n\033[0m", enemy.Name, player.Name, totalDamage)
 }
 
-
 func ChooseAction() int {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("\nQue veux-tu faire ?")
-	fmt.Println("1. Attaque de base")
-	fmt.Println("2. Attaque puissante")
-	fmt.Println("3. Ouvrir l'inventaire")
-	fmt.Println("4. Activer capacité spéciale")
+	fmt.Println("\033[36m1. Attaque de base\033[0m")
+	fmt.Println("\033[34m2. Attaque puissante\033[0m")
+	fmt.Println("\033[33m3. Ouvrir l'inventaire\033[0m")
+	fmt.Println("\033[31m4. Activer capacité spéciale\033[0m")
 	fmt.Print("Choix : ")
 	input, _ := reader.ReadString('\n')
 	input = strings.TrimSpace(input)
@@ -109,7 +108,7 @@ func Battle(player *personnage.Character, enemy *skelly.Monster) {
 		}
 
 		fmt.Println("\n--- Tour de l'ennemi ---")
-	enAttack(enemy, player)
+		enAttack(enemy, player)
 
 		if player.CurrentHP <= 0 {
 			fmt.Println(player.Name, "\033[33mest vaincu ! \033[0m")
