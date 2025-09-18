@@ -1,6 +1,7 @@
 package carte
 
 import (
+	"dungeon/alchimie"
 	"dungeon/coffre"
 	"dungeon/combat"
 	"dungeon/combatcthulhu"
@@ -73,6 +74,25 @@ func Start(p personnage.Character) {
 				break
 			}
 
+			// Activation de la table d'alchimie en y=4 x=42 ou x=43
+			if playerY == 4 && (playerX == 42 || playerX == 43) {
+				fmt.Println("Vous trouvez une table d'alchimie mystérieuse avec une recette de potion écrite sur un post-it.")
+				for {
+					fmt.Println("Voulez-vous tenter de faire la potion (oui/non)")
+					var choix string
+					fmt.Scanln(&choix)
+					if choix == "oui" {
+						alchimie.UtiliserTableAlchimie(&player.Inventory.Items)
+					} else {
+						fmt.Println("Vous quittez la table d'alchimie.")
+						playerY = 5
+						playerX = 42
+						break
+					}
+				}
+				break
+			}
+
 			if world[newY][newX] == '#' {
 				// Mur, on arrête la séquence
 				break
@@ -106,7 +126,7 @@ func Start(p personnage.Character) {
 				break
 			}
 			if playerY == 10 && (playerX == 38 || playerX == 39 || playerX == 40) && !coffreOuvert {
-				ouvert, _, _ := coffre.Ouvrirbibliotheque([]string{"parchemin de boule de feu"}, 20)
+				ouvert, _, _ := coffre.Ouvrirbibliotheque([]string{"CitrusLimus", "SolanumTuberosumPatate", "ZingiberOfficinale"}, 10)
 				if ouvert {
 					player.Inventory.AddItem(stock.CitrusLimus)
 					player.Inventory.AddItem(stock.SolanumTuberosumPatate)
