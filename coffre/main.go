@@ -1,12 +1,10 @@
 package coffre
 
 import (
-	"dungeon/inventaire"
-	"dungeon/inventaire/item"
 	"fmt"
 )
 
-func OuvrirCoffre(inv *inventaire.Inventory, item item.Item) (bool, []string, int) {
+func OuvrirCoffre(objets []string, argent int) (bool, []string, int) {
 	fmt.Println("\033[33mVous trouvez un coffre :\033[0m")
 	fmt.Println("Que voulez-vous faire ?")
 	fmt.Println("1. Ouvrir")
@@ -15,21 +13,23 @@ func OuvrirCoffre(inv *inventaire.Inventory, item item.Item) (bool, []string, in
 	fmt.Scanln(&choix)
 	if choix == "1" || choix == "Ouvrir" {
 		contenu := "dedans : "
-		if item.Name != "" {
-			contenu += item.Name
+
+		if len(objets) > 0 {
+			contenu += objets[0]
+			for i := 1; i < len(objets); i++ {
+				contenu += ", " + objets[i]
+			}
 		}
-		if item.Quantity > 0 {
-			if item.Name != "" {
+		if argent > 0 {
+			if len(objets) > 0 {
 				contenu += ", "
 			}
-			contenu += fmt.Sprintf("%d£", item.Quantity)
+			contenu += fmt.Sprintf("%d£", argent)
 		}
 		fmt.Println(contenu)
-		fmt.Scanln()
-		fmt.Println("Vous ouvrez le coffre et récupérez son contenu.")
 		fmt.Println("Appuie sur Entrée pour continuer...")
 		fmt.Scanln()
-		return true, []string{item.Name}, item.Quantity
+		return true, objets, argent
 	} else {
 		fmt.Println("Vous décidez de ne pas ouvrir le coffre.")
 		fmt.Println("Appuie sur Entrée pour continuer...")

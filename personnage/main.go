@@ -25,6 +25,7 @@ type Character struct {
 	PendingDamageText string
 	Attacks1          []Attack // Attaques de base
 	Attacks2          []Attack // Attaques puissante
+	Capacité          []Attack // Attaque spéciale
 }
 
 func CreateBarbarian(name string) Character {

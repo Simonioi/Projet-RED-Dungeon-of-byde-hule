@@ -11,5 +11,5 @@ var (
 	Staff       = item.Item{Name: "Bâton de mage", Damage: 2, Quantity: 1}
 	PotionMana  = item.Item{Name: "Potion de mana", HealMana: 4, Quantity: 1}
     FireScroll  = item.Item{Name: "Parchemin de boule de feu", Damage: 4, Quantity: 1}
-    Argent      = item.Item{Name: "£", Quantity: 1}
+    Argent      = item.Item{Name: "pièce d'or", Quantity: 1}
 )

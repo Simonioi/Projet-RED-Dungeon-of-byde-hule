@@ -1,8 +1,8 @@
 package inventaire
 
 import (
-	"dungeon/inventaire/stock"
 	"dungeon/inventaire/item"
+	"dungeon/inventaire/stock"
 	"fmt"
 )
 

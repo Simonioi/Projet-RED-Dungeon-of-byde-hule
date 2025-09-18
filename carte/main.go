@@ -1,17 +1,18 @@
 package carte
 
 import (
+	"dungeon/coffre"
 	"dungeon/combat"
 	"dungeon/combatcthulhu"
 	"dungeon/combatskelly"
 	"dungeon/cthulhu"
-	"dungeon/inventaire/stock"
 	"dungeon/mimic"
 	"dungeon/personnage"
 	"dungeon/skelly"
 	"fmt"
 	"os"
 	"os/exec"
+	"dungeon/inventaire/stock"
 )
 
 var world = []string{
@@ -82,11 +83,15 @@ func Start(p personnage.Character) {
 			playerX, playerY = newX, newY
 
 			if playerY == 2 && (playerX == 9 || playerX == 10) && !coffreOuvert {
-				argent := stock.Argent
-				argent.Quantity = 20
-				player.Inventory.AddItem(argent)
-				player.Inventory.AddItem(stock.FireScroll)
-				coffreOuvert = true
+				ouvert, _, _ := coffre.OuvrirCoffre([]string{"parchemin de boule de feu", "20 pieces d'or"}, 20)
+				if ouvert {
+					player.Inventory.AddItem(stock.Argent)
+					stock.Argent.Quantity = 20
+					player.Inventory.AddItem(stock.FireScroll)
+				}
+				if ouvert {
+					coffreOuvert = true
+				}
 				// On arrête la séquence après un événement
 				break
 			}
