@@ -30,11 +30,12 @@ func ChooseAction() int {
     fmt.Println("1. Attaque de base")
     fmt.Println("2. Attaque puissante")
     fmt.Println("3. Ouvrir l'inventaire")
+    fmt.Println("4. Activer capacité spéciale")
     fmt.Print("Choix : ")
     input, _ := reader.ReadString('\n')
     input = strings.TrimSpace(input)
     choice, err := strconv.Atoi(input)
-    if err != nil || (choice < 1 || choice > 3) {
+    if err != nil || (choice < 1 || choice > 4) {
         fmt.Println("Choix invalide, attaque de base utilisée.")
         return 1
     }
@@ -65,7 +66,28 @@ func Battle(player *personnage.Character, enemy *skelly.Monster) {
         fmt.Println("\n--- Tour du joueur ---")
         fmt.Println("\033[34mPV Joueur:\033[0m", player.CurrentHP, "| \033[31mPV Ennemi:\033[0m", enemy.CurrentHP)
 
-        choice := ChooseAction()
+        player.TickAttackBoost()
+
+        if len(player.Capacité) > 0 && player.Capacité[0].Duration > 0 {
+            fmt.Printf("\033[35mBoost actif: %s (%d tours restants)\033[0m\n", player.Capacité[0].Name, player.Capacité[0].Duration)
+        }
+
+        fmt.Println("\nQue veux-tu faire ?")
+        fmt.Println("1. Attaque de base")
+        fmt.Println("2. Attaque puissante")
+        fmt.Println("3. Ouvrir l'inventaire")
+        fmt.Println("4. Activer capacité spéciale")
+        fmt.Print("Choix : ")
+
+        reader := bufio.NewReader(os.Stdin)
+        input, _ := reader.ReadString('\n')
+        input = strings.TrimSpace(input)
+        choice, err := strconv.Atoi(input)
+        if err != nil || choice < 1 || choice > 4 {
+            fmt.Println("Choix invalide, attaque de base utilisée.")
+            choice = 1
+        }
+
         switch choice {
         case 1:
             ExecuteAttack(player.Name, player.Attacks1, enemy.Name, &enemy.CurrentHP)
@@ -74,12 +96,19 @@ func Battle(player *personnage.Character, enemy *skelly.Monster) {
         case 3:
             used := menuinventaire.OpenInventory(player.Inventory, player)
             if !used {
-                // Si aucun objet utilisé, on recommence le tour du joueur
                 continue
             }
+        case 4:
+            rage := personnage.Attack{
+                Name:            "I WOULD LIKE TO RAGE",
+                TempDamageBoost: 4,
+                TempHealthBoost: 2,
+                Duration:        5,
+            }
+            player.ActivateAttackBoost(rage)
+            fmt.Println("\033[35mCapacité spéciale activée : Rage pendant 5 tours !\033[0m")
         }
 
-        // Appliquer les dégâts d’un objet offensif si présent
         if player.PendingDamage > 0 {
             fmt.Println(player.PendingDamageText)
             enemy.CurrentHP -= player.PendingDamage

@@ -10,8 +10,58 @@ import (
 type Attack struct {
 	Name      string
 	Damage    int
+	TempDamageBoost int
+	TempHealthBoost int
 	HitChance float64
+	Duration int
 }
+
+// gestion de la rage avec boost tempo et durée
+func (c *Character) ActivateAttackBoost(a Attack) {
+    if a.TempHealthBoost > 0 {
+        c.MaxHP += a.TempHealthBoost
+        c.CurrentHP += a.TempHealthBoost
+    }
+    if a.TempDamageBoost > 0 {
+        for i := range c.Attacks1 {
+            c.Attacks1[i].Damage += a.TempDamageBoost
+        }
+        for i := range c.Attacks2 {
+            c.Attacks2[i].Damage += a.TempDamageBoost
+        }
+    }
+	c.Capacité = []Attack{a}
+}
+
+
+// gestion de la durée et retrait des boosts
+func (c *Character) TickAttackBoost() {
+    if len(c.Capacité) > 0 {
+        a := &c.Capacité[0]
+        if a.Duration > 0 {
+            a.Duration--
+            if a.Duration == 0 {
+                // Retirer les boosts
+                if a.TempHealthBoost > 0 {
+                    c.MaxHP -= a.TempHealthBoost
+                    if c.CurrentHP > c.MaxHP {
+                        c.CurrentHP = c.MaxHP
+                    }
+                }
+                if a.TempDamageBoost > 0 {
+                    for i := range c.Attacks1 {
+                        c.Attacks1[i].Damage -= a.TempDamageBoost
+                    }
+                    for i := range c.Attacks2 {
+                        c.Attacks2[i].Damage -= a.TempDamageBoost
+                    }
+                }
+                c.Capacité = nil
+            }
+        }
+    }
+}
+
 
 type Character struct {
 	Name              string
@@ -26,6 +76,7 @@ type Character struct {
 	Attacks1          []Attack // Attaques de base
 	Attacks2          []Attack // Attaques puissante
 	Capacité          []Attack // Attaque spéciale
+	
 }
 
 func CreateBarbarian(name string) Character {

@@ -6,13 +6,14 @@ import (
 	"dungeon/combatcthulhu"
 	"dungeon/combatskelly"
 	"dungeon/cthulhu"
+	"dungeon/inventaire/stock"
 	"dungeon/mimic"
 	"dungeon/personnage"
+	"dungeon/personnage/lvlup"
 	"dungeon/skelly"
 	"fmt"
 	"os"
 	"os/exec"
-	"dungeon/inventaire/stock"
 )
 
 var world = []string{
@@ -211,6 +212,8 @@ func enigmePorte() bool {
 	fmt.Scanln(&reponse)
 	if reponse == "chaussette" || reponse == "Chaussette" {
 		fmt.Println("La porte s'ouvre lentement dans un grincement sinistre...")
+		lvlup.LevelUp(&player)
+		fmt.Println("ding ding ! La caisse des donjons est heureuse de vous annoncer que vous avez gagné un niveau !")
 		return true
 	}
 	fmt.Println("Mauvaise réponse !")
