@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-// OpenInventory permet d'utiliser un objet de l'inventaire.
+// OpenInventory permet d'utiliser un objet de l'inventaire, et implémente, leur utilisation et ajout.
 // Si l'objet soigne, il soigne le joueur.
 // Si l'objet inflige des dégâts, il les inflige à l'ennemi.
 func OpenInventory(inv *inventaire.Inventory, player *personnage.Character) bool {

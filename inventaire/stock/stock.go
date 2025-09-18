@@ -21,4 +21,4 @@ var (
 	CitrusLimus            = item.Item{Name: "Citrus limus (citron vert)", HealAmount: 1, Quantity: 1}
 )
 
-//ooo
+//bibliothèque des items dispo dans le jeu.

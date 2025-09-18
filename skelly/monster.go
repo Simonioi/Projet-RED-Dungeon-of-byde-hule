@@ -19,8 +19,9 @@ func Skelly() Monster {
 		MaxHP:     20,
 		CurrentHP: 20,
 		Attacks: []Attack{
-			{Name: "Épée", Damage: 3, HitChance: 0.90},
-			{Name: "Lancé d'os", Damage: 3, HitChance: 0.75},
+			{Name: "Épée", Damage: 5, HitChance: 0.90},
 		},
+		
 	}
 }
+// Skelly est un squelette guerrier il est résistant, et frappe fort.

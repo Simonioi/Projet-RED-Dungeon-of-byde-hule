@@ -67,10 +67,10 @@ type Character struct {
 	MaxHP             int
 	CurrentHP         int
 	MaxMP             int
-	CurrentMP         int
-	Inventory         *inventaire.Inventory
-	PendingDamage     int
-	PendingDamageText string
+	CurrentMP         int 
+	Inventory         *inventaire.Inventory // Inventaire du personnage
+	PendingDamage     int // Dégâts en attente d’application (objets offensifs)
+	PendingDamageText string // Texte descriptif des dégâts en attente
 	Attacks1          []Attack // Attaques de base
 	Attacks2          []Attack // Attaques puissante
 	Capacité          []Attack // Attaque spéciale
@@ -92,7 +92,7 @@ func CreateBarbarian(name string) Character {
 			sword = it
 		}
 	}
-
+// attaque du barbare
 	attacks1 := []Attack{
 		{Name: "Attaque rapide", Damage: sword.BaseDamage, HitChance: 0.95},
 	}
@@ -132,7 +132,7 @@ func CreateMage(name string) Character {
 			staff = it
 		}
 	}
-
+// attaque du mage
 	attacks1 := []Attack{
 		{Name: "Coup de bâton", Damage: staff.BaseDamage, HitChance: 0.70},
 	}
@@ -160,7 +160,7 @@ func CreateMage(name string) Character {
 func ShowInventory(player Character) {
 	player.Inventory.ShowInventory()
 }
-
+// on a casé ici l'intro de la mission faute de place
 func main() {
 	var name, classChoice, missionChoice string
 

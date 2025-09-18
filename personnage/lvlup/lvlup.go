@@ -24,3 +24,5 @@ func LevelUp(p *personnage.Character) {
 	fmt.Println("Appuyez sur Entrée pour continuer...")
 	fmt.Scanln()
 }
+
+// gestion du LVL UP
